@@ -1,33 +1,30 @@
-OpenFOAM
-========
+OpenACC/CUDA training for beginners
+===================================
 
 
-Intro
 
 
 
 .. prereq::
 
-   prerequisites
-
-
-
-.. csv-table::
-   :widths: auto
-   :delim: ;
-
-   20 min ; :doc:`filename`
-
+   Before attending this workshop, please make sure that you have
+   access to PDC cluster.
 
 .. toctree::
    :maxdepth: 1
-   :caption: The lesson
+   :caption: Table of contents
+
+   1.01_openfoam-introduction
+   1.02_openfoam-handson
+   2.01_openfoam-workflow
+   2.02_openfoam-handson
 
 
 .. toctree::
    :maxdepth: 1
    :caption: Reference
 
+   setup
    quick-reference
    guide
 
@@ -38,24 +35,70 @@ Intro
 Who is the course for?
 ----------------------
 
+This course is for students, researchers, engineers and programmers
+who would like to get started with OpenFOAM using a HPC resource.
+Basic knowledge of using Linux will be required. 
+Participants are expected to know basic numerical analysis and have CFD theoretical background.
 
+Tentative schedule
+------------------
 
+.. list-table::
+   :widths: 25 50
+   :header-rows: 1
+
+   * - Day 1
+     -
+   * - 9:00 -  9:15
+     - Welcome and introduction to the training course
+   * - 9:15 -  10:00 
+     - Introduction to PDC and the HPC system
+   * - 10:00 - 10:15
+     - Break
+   * - 10:15 - 11:00
+     - Workflow overview for OpenFOAM 
+   * - 11:00 - 11:15
+     - Break
+   * - 11:15 - 12:00 
+     - Workflow overview for OpenFOAM (continue)
+   * - 12:00 - 13:00
+     - Lunch break
+   * - 13:00 - 15:00
+     - Hands-on session
+
+.. list-table::
+   :widths: 25 50
+   :header-rows: 1
+
+   * - Day 2
+     -
+   * - 9:15 -  10:00
+     - Function objects (probes, time-averages, residuals etc.)
+   * - 10:00 - 10:15
+     - Break
+   * - 10:15 - 11:00
+     - Introduction to the finite volume (FV) method
+   * - 11:00 - 11:15
+     - Break
+   * - 11:15 - 12:00
+     - Case study (motorbike) with parallel simulations
+   * - 12:00 - 13:00
+     - Lunch break
+   * - 13:00 - 15:00
+     - Hands-on session
 
 
 About the course
 ----------------
 
-
-
-
-
-
 See also
 --------
 
+There are many excellent resources online for learning OpenFOAM.
+To name only few:
 
-
-
+- Official `https://www.openfoam.com/documentation/tutorial-guide`_
+- `CFD with OpenSource Software<http://www.tfd.chalmers.se/~hani/kurser/OS_CFD/>`_ 
 
 Credits
 -------
@@ -66,47 +109,52 @@ The lesson file structure and browsing layout is inspired by and derived from
 <http://opensource.org/licenses/mit-license.html>`_. We have copied and adapted
 most of their license text.
 
+Several examples and exercises in this lesson have been adapted from the following
+sources:
+
+-
+-
+
 Instructional Material
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This instructional material is made available under the
-`Creative Commons Attribution license (CC-BY-4.0) <https://creativecommons.org/licenses/by/4.0/>`_.
-The following is a human-readable summary of (and not a substitute for) the
-`full legal text of the CC-BY-4.0 license
-<https://creativecommons.org/licenses/by/4.0/legalcode>`_.
-You are free to:
+This lesson material has been developed by Arash Alizad Banaei (PDC, KTH),
+Timofey Mukha (KTH Mech), and Jing Gong (ENCCS)
 
-- **share** - copy and redistribute the material in any medium or format
-- **adapt** - remix, transform, and build upon the material for any purpose,
+All ENCCS instructional material is made available under the `Creative Commons
+Attribution license (CC-BY-4.0)
+<https://creativecommons.org/licenses/by/4.0/>`_. The following is a
+human-readable summary of (and not a substitute for) the `full legal text of the
+CC-BY-4.0 license <https://creativecommons.org/licenses/by/4.0/legalcode>`_.
+You are free:
+
+- to **share** - copy and redistribute the material in any medium or format
+- to **adapt** - remix, transform, and build upon the material for any purpose,
   even commercially.
 
 The licensor cannot revoke these freedoms as long as you follow these license terms:
 
 - **Attribution** - You must give appropriate credit (mentioning that your work
-  is derived from work that is Copyright (c) Hiphopopotamus Rhymenoceros and individual contributors and, where practical, linking
+  is derived from work that is Copyright (c) ENCCS and, where practical, linking
   to `<https://enccs.se>`_), provide a `link to the license
   <https://creativecommons.org/licenses/by/4.0/>`_, and indicate if changes were
   made. You may do so in any reasonable manner, but not in any way that suggests
   the licensor endorses you or your use.
 - **No additional restrictions** - You may not apply legal terms or
   technological measures that legally restrict others from doing anything the
-  license permits.
+  license permits. With the understanding that:
 
-With the understanding that:
-
-- You do not have to comply with the license for elements of the material in
-  the public domain or where your use is permitted by an applicable exception
-  or limitation.
-- No warranties are given. The license may not give you all of the permissions
-  necessary for your intended use. For example, other rights such as
-  publicity, privacy, or moral rights may limit how you use the material.
-
-
-
+  - You do not have to comply with the license for elements of the material in
+    the public domain or where your use is permitted by an applicable exception
+    or limitation.
+  - No warranties are given. The license may not give you all of the permissions
+    necessary for your intended use. For example, other rights such as
+    publicity, privacy, or moral rights may limit how you use the material.
+  
 Software
 ^^^^^^^^
 
 Except where otherwise noted, the example programs and other software provided
-with this repository are made available under the `OSI <http://opensource.org/>`_-approved
-`MIT license <https://opensource.org/licenses/mit-license.html>`_.
+by ENCCS are made available under the `OSI <http://opensource.org/>`_-approved
+`MIT license <http://opensource.org/licenses/mit-license.html>`_.
 

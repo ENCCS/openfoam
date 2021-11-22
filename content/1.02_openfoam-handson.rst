@@ -1,0 +1,207 @@
+.. _openfoam-handson:
+
+
+What is OenFOAM ?
+-----------------
+
+- OpenFOAM is an open source Computation Fluid Dynamics (CFD) solve released and developed primarily by OpenCFD Ltd since 2004. 
+
+- It has a large user base across most areas of engineering and science, from both commercial and academic organizations. 
+
+- OpenFOAM has an extensive range of features to solve anything from complex fluid flows involving chemical reactions, turbulence and heat transfer, to acoustics, solid mechanics and electromagnetics. 
+
+- There are two main branches of OpenFOAM, 
+
+  - one is from OpenFOAM Foundation (`www.openfoam.org <http://www.openfoam.org>`_),
+  - and the other is OpenCFD Ltd (`www.openfoam.com <http://www.openfoam.com>`_.).
+  - In this guide, we only consider the later
+
+-  Extensive guides, tutorials, code samples and documentation on the OpenFOAM
+   can be found at `www.openfoam.org <http://www.openfoam.org>`_.
+
+Installation
+------------
+
+Case study
+----------
+
+General Information
+^^^^^^^^^^^^^^^^^^^
+
+- There are usually three subfolders (**0**, **constant** and **system**) for all OpenFOAM casesi
+
+.. code:: bash
+ $ ls
+ 0 constant system
+
+where folder **0** includes the initial and boundary condition variables and the parameters
+for turbulence models. **constant** includes geometry information such as meshes (points,
+faces, boundary etc.), connections, STL files etc. **system** includes the various dictionaries
+(Dict) to set different parameters. For example, we can modify the following files
+
+- **system/blockMeshDict**: to set the block size.
+- **system/snappyHexMeshDict**: to set parameters for snappyHexMesh
+- **system/decomposeParDict** : to split mesh into submeshes for every MPI-rank
+
+.. code:: bash
+ numberOfSubdomains 16; // Set the number of used processes (16)?
+ method scotch; // Set the partition method (scotch) ?
+
+- **system/controlDict**: control variables
+.. code:: bash
+ application simpleFoam; // Set the OpenFOAM solver (simpleFoam)
+ ...
+ endTime 500; // Set the time steps (500 steps)
+ ...
+ writeInterval 100; // Write results in files (per 100 steps)
+ ...
+
+The general workflow for a OpenFOAM case is shown as follows
+
+.. code:: bash
+ Start
+   |
+   v
+ blockMesh // Create a block mesh (set by system/blockMeshDict)
+   |
+   v
+ decomposePar // Divide into submeshes (set by system/decomposeParDict)
+   |
+   v
+ snappyHexMesh // create complex mesh (set by system/snappyHexMeshDict)
+   |
+   V
+ simpleFOAM // run application(OpenFOAM solver) (set by system/controlDict)
+
+MotorBike Case
+--------------
+
+This case uses OpenFOAM to calculate the steady flow around a motorcycle and rider, see
+the Figure.
+
+- As OpenFOAM cases are not backward compatible, always copy cases from $FOAM TUTORIALS
+of current version
+
+.. code:: bash
+
+ $ module add PDC
+ $ module add OpenFOAM/v2106-cpeAMD-21.09
+ $ echo $FOAM_BASHRC
+ /pdc/software/21.09/eb/software/OpenFOAM/v2106-cpeAMD-21.09/etc/bashrc
+ $ source $FOAM_BASHRC
+ $ cp -r $FOAM_TUTORIALS/incompressible/simpleFoam/motorBike .
+
+- The structure of the case is shown in the following
+
+.. code:: bash
+ $ cd motorBike
+ $ ls
+ 0.orig Allclean Allrun constant system
+
+ ├── 0.orig ("time directory starting with T=0, initial conditions)
+ │   ├── include
+ │   │   ├── fixedInlet
+ │   │   ├── frontBackUpperPatches
+ │   │   └── initialConditions
+ │   ├── k (turbulence kenetic energy)
+ │   ├── nut (turbulence viscosity)
+ │   ├── omega (turbulence specific dissipation rate)
+ │   ├── p (pressure)
+ │   └── U (flow velocity)
+ ├── Allclean (precanned clean file)
+ ├── Allrun (precanned run file)
+ ├── constant (hard static stuff i.e. physical properties)
+ |-- RASProperties (Reynolds-Averaged Simulation Model to use e.g. kOmegaSST)
+ │   ├── polyMesh
+ │   │   ├── blockMeshDict
+ │   │   ├── boundary
+ │   ├── transportProperties (Transport Model e.g. Newtonian)
+ │   ├── triSurface
+ │   │   ├── motorBike.obj.gz (actual motorbike model)
+ │   └── turbulenceProperties
+ └── system
+    ├── blockMeshDict 
+    ├── controlDict (the main dictionary for controlling the simulation)
+    ├── decomposeParDict (dictionary for partitioning up the space into smaller chunks)
+    ├── fvSchemes
+    ├── fvSolution
+    ├── snappyHexMeshDict (the dictionary for adding a mesh for simulating surface interactions)
+
+- The default setting is to run the application simpleFoam on 6 MPI-rank with block
+size of (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.
+The workflow is following
+
+
+- Run the case
+
+.. code:: bash
+ $ source $FOAM_BASHRC
+ $ ./Allrun # run the workflow
+
+
+- For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
+
+.. code:: bash
+   blocks
+ (
+ hex (0 1 2 3 4 5 6 7) (20 8 8) simpleGrading (1 1 1)
+ );
+
+to
+.. code:: bash
+ blocks
+ (
+ hex (0 1 2 3 4 5 6 7) (200 80 80) simpleGrading (1 1 1)
+ );
+
+i.e. the mesh size in x, y, and z directories increases 10 times.
+
+- Also we can change the MPI rank and the decomposition method in file *system/decomposeParDict*,
+for example, change the default
+
+.. code:: bash
+
+ numberOfSubdomains 6;
+ method hierarchical;
+
+to
+.. code:: bash
+
+ numberOfSubdomains 32; # MPI-rank
+ method hierarchical;
+
+(Note: If you still used “method hierarchical”, the hierarchicalCoeffs in the file
+should be coordinately changed)
+
+.. code:: bash
+ hierarchicalCoeffs
+ {
+ n (4 4 2); // 4x4x2 = 32 !!
+ ...
+
+The script *Allclean* can be used to delete the log files and remove the results from
+motorBike run and then rerun again.
+
+- Validating the model
+To make sure everything is OK we can the output logs from the OpenFOAM run,
+this will show if the run actually worked or not. For each stage there is a log.¡stage¿
+output. For example, in the *log.simpleFoam* file the coefficients should be likes
+
+.. code:: bash
+ $ tail -n 50 ./log.simpleFoam
+ ...
+ Time = 500
+ ...
+ ExecutionTime = 279.99 s ClockTime = 281 s
+ ...
+ Coefficients
+ Cm : 0.157483 (pressure: 0.149969 viscous: 0.00751474)
+ Cd : 0.410867 (pressure: 0.393321 viscous: 0.0175461)
+ Cl : 0.0751623 (pressure: 0.0758905 viscous: -0.000728213)
+ Cl(f) : 0.195065
+ Cl(r) : -0.119902
+ ensightWrite ensightWrite write: ( U p k omega )
+ End
+ Finalising parallel run
+
+
