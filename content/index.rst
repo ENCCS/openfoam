@@ -97,8 +97,9 @@ See also
 There are many excellent resources online for learning OpenFOAM.
 To name only few:
 
-- Official `https://www.openfoam.com/documentation/tutorial-guide`_
-- `CFD with OpenSource Software<http://www.tfd.chalmers.se/~hani/kurser/OS_CFD/>`_ 
+- Official `OpenFOAM Tutorial Guide <https://www.openfoam.com/documentation/tutorial-guide>`_
+
+- Chalmers University of Technology `CFD with OpenSource Software <http://www.tfd.chalmers.se/~hani/kurser/OS_CFD/>`_ 
 
 Credits
 -------

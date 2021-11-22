@@ -13,24 +13,25 @@ What is OenFOAM ?
 - There are two main branches of OpenFOAM, 
 
   - one is from OpenFOAM Foundation (`www.openfoam.org <http://www.openfoam.org>`_),
-  - and the other is OpenCFD Ltd (`www.openfoam.com <http://www.openfoam.com>`_.).
+  - and the other is OpenCFD Ltd (`www.openfoam.com <http://www.openfoam.com>`_).
   - In this guide, we only consider the later
 
 -  Extensive guides, tutorials, code samples and documentation on the OpenFOAM
-   can be found at `www.openfoam.org <http://www.openfoam.org>`_.
+   can be found at `www.openfoam.com <http://www.openfoam.com>`_.
 
 Installation
 ------------
 
-Case study
-----------
+Case studies
+------------
 
 General Information
 ^^^^^^^^^^^^^^^^^^^
 
-- There are usually three subfolders (**0**, **constant** and **system**) for all OpenFOAM casesi
+- There are usually three subfolders (**0**, **constant** and **system**) for all OpenFOAM cases
 
 .. code:: bash
+
  $ ls
  0 constant system
 
@@ -44,11 +45,14 @@ faces, boundary etc.), connections, STL files etc. **system** includes the vario
 - **system/decomposeParDict** : to split mesh into submeshes for every MPI-rank
 
 .. code:: bash
+
  numberOfSubdomains 16; // Set the number of used processes (16)?
  method scotch; // Set the partition method (scotch) ?
 
 - **system/controlDict**: control variables
+
 .. code:: bash
+
  application simpleFoam; // Set the OpenFOAM solver (simpleFoam)
  ...
  endTime 500; // Set the time steps (500 steps)
@@ -59,6 +63,7 @@ faces, boundary etc.), connections, STL files etc. **system** includes the vario
 The general workflow for a OpenFOAM case is shown as follows
 
 .. code:: bash
+
  Start
    |
    v
@@ -94,6 +99,7 @@ of current version
 - The structure of the case is shown in the following
 
 .. code:: bash
+
  $ cd motorBike
  $ ls
  0.orig Allclean Allrun constant system
@@ -135,6 +141,7 @@ The workflow is following
 - Run the case
 
 .. code:: bash
+
  $ source $FOAM_BASHRC
  $ ./Allrun # run the workflow
 
@@ -142,13 +149,15 @@ The workflow is following
 - For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
 
 .. code:: bash
-   blocks
+
+ blocks
  (
  hex (0 1 2 3 4 5 6 7) (20 8 8) simpleGrading (1 1 1)
  );
 
 to
 .. code:: bash
+
  blocks
  (
  hex (0 1 2 3 4 5 6 7) (200 80 80) simpleGrading (1 1 1)
@@ -167,16 +176,17 @@ for example, change the default
 to
 .. code:: bash
 
- numberOfSubdomains 32; # MPI-rank
+ numberOfSubdomains 24; # MPI-rank
  method hierarchical;
 
 (Note: If you still used “method hierarchical”, the hierarchicalCoeffs in the file
 should be coordinately changed)
 
 .. code:: bash
+
  hierarchicalCoeffs
  {
- n (4 4 2); // 4x4x2 = 32 !!
+ n (4 3 2); // 4x3x2 = 24 !!
  ...
 
 The script *Allclean* can be used to delete the log files and remove the results from
