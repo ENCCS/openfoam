@@ -79,20 +79,18 @@ The general workflow for a OpenFOAM case is shown as follows
  simpleFOAM // run application(OpenFOAM solver) (set by system/controlDict)
 
 MotorBike Case
---------------
+^^^^^^^^^^^^^^
 
 This case uses OpenFOAM to calculate the steady flow around a motorcycle and rider, see
 the Figure.
 
-- As OpenFOAM cases are not backward compatible, always copy cases from $FOAM TUTORIALS
-of current version
+- As OpenFOAM cases are not backward compatible, always copy cases from *$FOAM_TUTORIALS* of current version
 
 .. code:: bash
 
- $ module add PDC
- $ module add OpenFOAM/v2106-cpeAMD-21.09
+ $ module add openfoam/1912
  $ echo $FOAM_BASHRC
- /pdc/software/21.09/eb/software/OpenFOAM/v2106-cpeAMD-21.09/etc/bashrc
+ /pdc/vol/openfoam/v1912/OpenFOAM-v1912/etc/bashrc
  $ source $FOAM_BASHRC
  $ cp -r $FOAM_TUTORIALS/incompressible/simpleFoam/motorBike .
 
@@ -104,7 +102,9 @@ of current version
  $ ls
  0.orig Allclean Allrun constant system
 
- ├── 0.orig ("time directory starting with T=0, initial conditions)
+ $ tree -d 1 .
+
+ ├── 0.orig (time directory starting with T=0, initial conditions)
  │   ├── include
  │   │   ├── fixedInlet
  │   │   ├── frontBackUpperPatches
@@ -138,13 +138,17 @@ size of (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 an
 The workflow is following
 
 
-- Run the case
+Run the case
+^^^^^^^^^^^^
 
 .. code:: bash
 
  $ source $FOAM_BASHRC
  $ ./Allrun # run the workflow
 
+
+Modification
+^^^^^^^^^^^^
 
 - For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
 
@@ -156,6 +160,7 @@ The workflow is following
  );
 
 to
+
 .. code:: bash
 
  blocks
@@ -192,7 +197,9 @@ should be coordinately changed)
 The script *Allclean* can be used to delete the log files and remove the results from
 motorBike run and then rerun again.
 
-- Validating the model
+Validating the model
+^^^^^^^^^^^^^^^^^^^^
+
 To make sure everything is OK we can the output logs from the OpenFOAM run,
 this will show if the run actually worked or not. For each stage there is a log.¡stage¿
 output. For example, in the *log.simpleFoam* file the coefficients should be likes
