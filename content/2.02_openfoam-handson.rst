@@ -1,58 +1,5 @@
 .. _openfoam-handson:
 
-General Information
-^^^^^^^^^^^^^^^^^^^
-
-- There are usually three subfolders (**0**, **constant** and **system**) for all OpenFOAM cases
-
-.. code:: bash
-
- $ ls
- 0 constant system
-
-where folder **0** includes the initial and boundary condition variables and the parameters
-for turbulence models. **constant** includes geometry information such as meshes (points,
-faces, boundary etc.), connections, STL files etc. **system** includes the various dictionaries
-(Dict) to set different parameters. For example, we can modify the following files
-
-- **system/blockMeshDict**: to set the block size.
-- **system/snappyHexMeshDict**: to set parameters for snappyHexMesh
-- **system/decomposeParDict** : to split mesh into submeshes for every MPI-rank
-
-.. code:: bash
-
- numberOfSubdomains 16; // Set the number of used processes (16)?
- method scotch; // Set the partition method (scotch) ?
-
-- **system/controlDict**: control variables
-
-.. code:: bash
-
- application simpleFoam; // Set the OpenFOAM solver (simpleFoam)
- ...
- endTime 500; // Set the time steps (500 steps)
- ...
- writeInterval 100; // Write results in files (per 100 steps)
- ...
-
-The general workflow for a OpenFOAM case is shown as follows
-
-.. code:: bash
-
- Start
-   |
-   v
- blockMesh // Create a block mesh (set by system/blockMeshDict)
-   |
-   v
- decomposePar // Divide into submeshes (set by system/decomposeParDict)
-   |
-   v
- snappyHexMesh // create complex mesh (set by system/snappyHexMeshDict)
-   |
-   V
- simpleFOAM // run application(OpenFOAM solver) (set by system/controlDict)
-
 MotorBike Case
 ^^^^^^^^^^^^^^
 
