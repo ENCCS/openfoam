@@ -109,7 +109,7 @@ most of their license text.
 Several examples and exercises in this lesson have been adapted from the following
 sources:
 
-- `OpenFOAM: Open source CFD: Documentation <https://www.openfoam.com/documentation/guides/latest/doc/>`_
+- `OpenFOAM®: Open source CFD: Documentation <https://www.openfoam.com/documentation/guides/latest/doc/>`_
 
 - `OpenFOAM Wiki <https://wiki.openfoam.com/Main_Page>`_
 
