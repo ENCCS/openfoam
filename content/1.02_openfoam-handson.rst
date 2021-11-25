@@ -21,7 +21,7 @@ What is OenFOAM ?
 
 
 General Information
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 - There are usually three subfolders (**0**, **constant** and **system**) for all OpenFOAM cases
 
@@ -74,13 +74,13 @@ The general workflow for a OpenFOAM case is shown as follows
  simpleFOAM // run application(OpenFOAM solver) (set by system/controlDict)
 
 
-Case studies
-------------
 
 Lid-driven cavity flow
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 
-This case uses OpenFOAM to calculate the incompressible flow in a two-dimensional square domain.
+This case uses OpenFOAM to calculate the incompressible flow in a two-dimensional square domain, see the Figure blow
+
+ .. image:: img/cavity2D_geometry.png
 
 - As OpenFOAM cases are not backward compatible, always copy cases from *$FOAM_TUTORIALS* of current version
 
@@ -115,22 +115,57 @@ This case uses OpenFOAM to calculate the incompressible flow in a two-dimensiona
     ├── fvSolution
     ├── PDRblockMeshDict
 
-- The default setting is to run the application *simpleFoam* in serial with two-dimensional block size of (20×20×1). The case will run to 0.5 with 0.005 per step. The middle results are stored in every 20 time steps. The workflow is following
+- The default setting is to run the application *simpleFoam* in serial with two-dimensional block size of (20×20×1). The case will run up to *0.5* with *0.005* per step, i.e. total 100 time steps. The middle results are stored in every 20 time steps. 
 
 
-Run the case
-^^^^^^^^^^^^
+Run the case by default
+=======================
 
 .. code:: bash
 
  $ source $FOAM_BASHRC
  $ blockMesh # create the equivalent mesh of (20x20x1)
- $ icoFoam
+ $ icoFoam > log.icoFoam
+ $ ls
+ 0  0.1  0.2  0.3  0.4  0.5  constant  system
 
-Modification
-^^^^^^^^^^^^
+Until now, you are able to run the OpenFOAM case of cavity flow on PDC cluster. 
+
+Validating the model
+====================
+
+ To make sure everything is OK we can the output logs from the OpenFOAM run, this will show if the run actually worked or not. there are outputs in the log.simpleFoam file
+
+.. code:: bash
+
+ $ tail -n 50 log.icoFoam
+ Time = 0.5
+
+ Courant Number mean: 0.222158 max: 0.852134
+ smoothSolver:  Solving for Ux, Initial residual = 2.3091e-07, Final residual = 2.3091e-07, No Iterations 0
+ smoothSolver:  Solving for Uy, Initial residual = 5.0684e-07, Final residual = 5.0684e-07, No Iterations 0
+ DICPCG:  Solving for p, Initial residual = 8.63844e-07, Final residual = 8.63844e-07, No Iterations 0
+ time step continuity errors : sum local = 8.8828e-09, global = 4.94571e-19, cumulative = 1.10417e-17
+ DICPCG:  Solving for p, Initial residual = 9.59103e-07, Final residual = 9.59103e-07, No Iterations 0
+ time step continuity errors : sum local = 9.66354e-09, global = 1.13175e-18, cumulative = 1.21735e-17
+ ExecutionTime = 0.31 s  ClockTime = 1 s
+
+ End
+
+Post-processing
+===============
+The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrapper of *paraview* (www.paraview.org).  The *paraFoam* post-processing is started by typing in the terminal from within the case directory with loading *paraview* module.
+ 
+.. code:: bash
+
+ $ module add paraview/5.8.1-gcc-7.2
+ $ paraFoam
+
+.. image:: img/cavity2D_mesh.png
 
 - For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
+
+.. image:: img/cavity2D_pressure.png
 
 i.e. the mesh size in x, y, and z directories increases 10 times.
 
@@ -138,7 +173,3 @@ i.e. the mesh size in x, y, and z directories increases 10 times.
 
 The script *Allclean* can be used to delete the log files and remove the results from
 motorBike run and then rerun again.
-
-Validating the model
-^^^^^^^^^^^^^^^^^^^^
-

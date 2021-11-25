@@ -52,11 +52,11 @@ Tentative schedule
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Workflow overview for OpenFOAM 
+     - Introduction to the finite volume (FV) method  
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00 
-     - Workflow overview for OpenFOAM (continue)
+     - Workflow overview for OpenFOAM
    * - 12:00 - 13:00
      - Lunch break
    * - 13:00 - 15:00
@@ -73,7 +73,7 @@ Tentative schedule
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Introduction to the finite volume (FV) method
+     - Mesh generation and parallelization
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00

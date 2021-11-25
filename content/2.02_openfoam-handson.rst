@@ -6,6 +6,8 @@ MotorBike Case
 This case uses OpenFOAM to calculate the steady flow around a motorcycle and rider, see
 the Figure.
 
+.. image:: img/motorbike_overall.png
+
 - As OpenFOAM cases are not backward compatible, always copy cases from *$FOAM_TUTORIALS* of current version
 
 .. code:: bash
@@ -59,6 +61,9 @@ the Figure.
 size of (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.
 The workflow is following
 
+.. image:: img/motorbike_blockmesh.png
+
+.. image:: img/motorbike_snappyhexmesh.png
 
 Run the case
 ^^^^^^^^^^^^
@@ -68,6 +73,9 @@ Run the case
  $ source $FOAM_BASHRC
  $ ./Allrun # run the workflow
 
+The result is shown in the following figure
+
+.. image:: img/motorbike_result.png
 
 Modification
 ^^^^^^^^^^^^
