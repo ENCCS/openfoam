@@ -1,7 +1,7 @@
 .. _openfoam-handson:
 
 MotorBike Case
-^^^^^^^^^^^^^^
+==============
 
 This case uses OpenFOAM to calculate the steady flow around a motorcycle and rider, see
 the Figure.
@@ -65,8 +65,8 @@ The workflow is following
 
 .. image:: img/motorbike_snappyhexmesh.png
 
-Run the case
-^^^^^^^^^^^^
+Run the case by default
+-----------------------
 
 .. code:: bash
 
@@ -77,8 +77,33 @@ The result is shown in the following figure
 
 .. image:: img/motorbike_result.png
 
+Validating the model
+--------------------
+
+To make sure everything is OK we can the output logs from the OpenFOAM run,
+this will show if the run actually worked or not. For each stage there is a log.[stage]
+output. For example, in the *log.simpleFoam* file the coefficients should be likes
+
+.. code:: bash
+
+ $ tail -n 50 ./log.simpleFoam
+ ...
+ Time = 500
+ ...
+ ExecutionTime = 279.99 s ClockTime = 281 s
+ ...
+ Coefficients
+ Cm : 0.157483 (pressure: 0.149969 viscous: 0.00751474)
+ Cd : 0.410867 (pressure: 0.393321 viscous: 0.0175461)
+ Cl : 0.0751623 (pressure: 0.0758905 viscous: -0.000728213)
+ Cl(f) : 0.195065
+ Cl(r) : -0.119902
+ ensightWrite ensightWrite write: ( U p k omega )
+ End
+ Finalising parallel run
+
 Modification
-^^^^^^^^^^^^
+------------
 
 - For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
 
@@ -127,29 +152,11 @@ should be coordinately changed)
 The script *Allclean* can be used to delete the log files and remove the results from
 motorBike run and then rerun again.
 
-Validating the model
-^^^^^^^^^^^^^^^^^^^^
+calability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
 
-To make sure everything is OK we can the output logs from the OpenFOAM run,
-this will show if the run actually worked or not. For each stage there is a log.[stage]
-output. For example, in the *log.simpleFoam* file the coefficients should be likes
+i.e. the mesh size in x, y, and z directories increases 10 times.
 
-.. code:: bash
+- Also we can change the MPI rank and the decomposition method in file *system/decomposeParDict*, for example, change the default
 
- $ tail -n 50 ./log.simpleFoam
- ...
- Time = 500
- ...
- ExecutionTime = 279.99 s ClockTime = 281 s
- ...
- Coefficients
- Cm : 0.157483 (pressure: 0.149969 viscous: 0.00751474)
- Cd : 0.410867 (pressure: 0.393321 viscous: 0.0175461)
- Cl : 0.0751623 (pressure: 0.0758905 viscous: -0.000728213)
- Cl(f) : 0.195065
- Cl(r) : -0.119902
- ensightWrite ensightWrite write: ( U p k omega )
- End
- Finalising parallel run
-
-
+The script *Allclean* can be used to delete the log files and remove the results from
+motorBike run and then rerun again.

@@ -2,7 +2,7 @@
 
 
 What is OenFOAM ?
------------------
+=================
 
 - OpenFOAM is an open source Computation Fluid Dynamics (CFD) solve released and developed primarily by OpenCFD Ltd since 2004. 
 
@@ -21,7 +21,7 @@ What is OenFOAM ?
 
 
 General Information
--------------------
+===================
 
 - There are usually three subfolders (**0**, **constant** and **system**) for all OpenFOAM cases
 
@@ -75,8 +75,8 @@ The general workflow for a OpenFOAM case is shown as follows
 
 
 
-Lid-driven cavity flow
-----------------------
+Case: Lid-driven cavity flow
+============================
 
 This case uses OpenFOAM to calculate the incompressible flow in a two-dimensional square domain, see the Figure blow
 
@@ -119,7 +119,7 @@ This case uses OpenFOAM to calculate the incompressible flow in a two-dimensiona
 
 
 Run the case by default
-=======================
+-----------------------
 
 .. code:: bash
 
@@ -132,7 +132,7 @@ Run the case by default
 Until now, you are able to run the OpenFOAM case of cavity flow on PDC cluster. 
 
 Validating the model
-====================
+--------------------
 
  To make sure everything is OK we can the output logs from the OpenFOAM run, this will show if the run actually worked or not. there are outputs in the log.simpleFoam file
 
@@ -153,7 +153,8 @@ Validating the model
  End
 
 Post-processing
-===============
+---------------
+
 The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrapper of *paraview* (www.paraview.org).  The *paraFoam* post-processing is started by typing in the terminal from within the case directory with loading *paraview* module.
  
 .. code:: bash
@@ -163,13 +164,5 @@ The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrappe
 
 .. image:: img/cavity2D_mesh.png
 
-- For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
-
 .. image:: img/cavity2D_pressure.png
 
-i.e. the mesh size in x, y, and z directories increases 10 times.
-
-- Also we can change the MPI rank and the decomposition method in file *system/decomposeParDict*, for example, change the default
-
-The script *Allclean* can be used to delete the log files and remove the results from
-motorBike run and then rerun again.
