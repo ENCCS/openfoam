@@ -3,8 +3,7 @@
 MotorBike Case
 ==============
 
-This case uses OpenFOAM to calculate the steady flow around a motorcycle and rider, see
-the Figure.
+This case uses OpenFOAM to calculate the steady flow around a motorbike and ride using RAS turbulence modelling with wall functions. The initialization of flow velocity is 20 m/s. The box includes the bike and ride are approximately 2.0x0.8x1.3m and the estimated characteristic length scale L=0.5m, see the Figure below.
 
 .. image:: img/motorbike_overall.png
 
@@ -102,30 +101,9 @@ output. For example, in the *log.simpleFoam* file the coefficients should be lik
  End
  Finalising parallel run
 
-Modification
-------------
-
-- For the scalability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
-
-.. code:: bash
-
- blocks
- (
- hex (0 1 2 3 4 5 6 7) (20 8 8) simpleGrading (1 1 1)
- );
-
-to
-
-.. code:: bash
-
- blocks
- (
- hex (0 1 2 3 4 5 6 7) (200 80 80) simpleGrading (1 1 1)
- );
-
-i.e. the mesh size in x, y, and z directories increases 10 times.
-
-- Also we can change the MPI rank and the decomposition method in file *system/decomposeParDict*, for example, change the default
+Parallelization
+---------------
+we can change the MPI rank and the decomposition method in file *system/decomposeParDict*, for example, change the default
 
 .. code:: bash
 
@@ -147,16 +125,77 @@ should be coordinately changed)
  hierarchicalCoeffs
  {
  n (4 3 2); // 4x3x2 = 24 !!
- ...
+ } 
 
 The script *Allclean* can be used to delete the log files and remove the results from
 motorBike run and then rerun again.
 
-calability tests, the default mesh of 35 k cells is small, we need to increase the block mesh size. We can change the settings in file *system/blockMeshDict*, for example, from
+Mesh refinement
+---------------
 
-i.e. the mesh size in x, y, and z directories increases 10 times.
+- For scalability tests, the default mesh of 350 k cells may be small, (you can check the mesh information in *log.snappyHexMesh*
 
-- Also we can change the MPI rank and the decomposition method in file *system/decomposeParDict*, for example, change the default
+.. code:: bash
 
-The script *Allclean* can be used to delete the log files and remove the results from
-motorBike run and then rerun again.
+ Layer mesh : cells:353548  faces:1107696  points:405989
+
+We need to increase the block mesh size and change the settings in file *system/blockMeshDict*, for example, from
+
+.. code:: bash
+
+ blocks
+ (
+ hex (0 1 2 3 4 5 6 7) (20 8 8) simpleGrading (1 1 1)
+ );
+
+to
+
+.. code:: bash
+
+ blocks
+ (
+ hex (0 1 2 3 4 5 6 7) (40 16 16) simpleGrading (1 1 1)
+ );
+
+i.e. the mesh size in x, y, and z-directory increases twice. The script *Allclean* can be used to delete the log files and remove the results from motorBike run and then rerun again.
+
+.. code:: bash
+
+ Layer mesh : cells:1892612  faces:5875533  points:2112502
+
+snappyHexMesh
+-------------
+
+- Includes three (optional) steps from a triangle surfacce obtained from e.g. CAD models.
+
+.. image::  ./img/snappyHexMesh_surface.png
+
+.. image:: ./img/snappyHexMesh_blockmesh.png
+
+.. code:: bash
+
+ // Which of the steps to run
+ castellatedMesh true;
+ snap            true;
+ addLayers       true;
+
+- *castellatedMesh* : refines around surface and features and then splits cell by region
+
+.. image:: ./img/snappyHexMesh_castellated.png
+
+- *snap* : snaps cells to surface
+
+.. image:: ./img/snappyHexMesh_snap.png
+
+- *addLayers* add layers (e.g. boundary layers) if necessary 
+
+.. image:: ./img/snappyHexMesh_layer.png
+
+Function objects
+__________________
+
+
+Numerical schemes and solvers
+-----------------------------
+
+

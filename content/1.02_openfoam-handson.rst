@@ -1,8 +1,8 @@
 .. _openfoam-handson:
 
 
-What is OenFOAM ?
-=================
+What is OpenFOAM ?
+==================
 
 - OpenFOAM is an open source Computation Fluid Dynamics (CFD) solve released and developed primarily by OpenCFD Ltd since 2004. 
 
