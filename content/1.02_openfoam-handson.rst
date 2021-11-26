@@ -166,3 +166,128 @@ The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrappe
 
 .. image:: img/cavity2D_pressure.png
 
+Creating the finer mesh
+-----------------------
+We can increase the number of cells in the mesh by using *blockMesh*. In *system/blockMeshDict*, the default mesh size is *(20 20 1)*, 
+
+.. code:: bash
+
+ blocks
+ (
+    hex (0 1 2 3 4 5 6 7) (20 20 1) simpleGrading (1 1 1)
+ );
+
+The mesh size can be refined to ex. *(40 40 1)*,
+
+.. code:: bash
+
+ blocks
+ (
+    hex (0 1 2 3 4 5 6 7) (20 20 1) simpleGrading (1 1 1)
+ ); 
+
+And then rerun the command *blockMesh* and *icoFoam* to generate new results with the refine mesh
+
+.. code:: bash
+
+ $ blockMesh
+ $ icoFoam > log.icoFoam.fine
+
+Increasing the Reynolds number
+------------------------------
+We will now increase the Reynolds number to *100*, at which point the solution takes a noticeably longer time to converge.
+
+.. code:: bash
+
+ $ cp -r cavity cavityHighRe
+
+and then edit *transportProperties* dictionary to reduce the kinematic viscosity to *0.001*
+
+.. code:: bash
+
+ nu              0.01;
+
+to 
+
+.. code:: bash
+
+ nu              0.01;
+
+
+Increase the *endTime* from *0.5* to *2* so that *icoFoam*  run upto 2 seconds.
+
+.. code:: bash 
+
+ $ icoFoam
+
+High Reynolds number flow
+-------------------------
+
+The need to increase spatial and temporal resolution then becomes impractical as the flow moves into the turbulent regime, where problems of solution stability may also occur. 
+Instead Reynolds-averaged simulation (RAS) turbulence models are used to solve for the mean 
+flow behaviour and calculate the statistics of the fluctuations. The standard k-epsilon model with wall functions will be used in this tutorial to solve the lid-driven cavity case with a Reynolds number of 10^4. Two extra variables are solved for: k, the turbulent kinetic energy, and epsilon, the turbulent dissipation rate. The additional equations and models for turbulent flow are implemented into a OpenFOAM solver called *pisoFoam*.
+
+
+A range of wall function models is available in OpenFOAM that are applied as boundary conditions on individual patches. This enables different wall function models to be applied to different wall regions. The choice of wall function models are specified through the turbulent viscosity field, nu in the *0/nut* file:
+
+.. code:: bash
+
+ dimensions      [0 2 -1 0 0 0 0];
+
+ internalField   uniform 0;
+
+ boundaryField
+ {
+    movingWall
+    {
+        type            nutkWallFunction;
+        value           uniform 0;
+    }
+    fixedWalls
+    {
+        type            nutkWallFunction;
+        value           uniform 0;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+ }
+
+
+The user should now open the field files for *k* and *epsilon* ( in *0/k* and *0/epsilon*) and examine their boundary conditions. 
+For a wall boundary condition wall, *epsilon* is assigned an *epsilonWallFunction* boundary condition and a *kqRwallFunction* boundary condition is assigned to *k*. The latter is a generic boundary condition that can be applied to any field that are of a turbulent kinetic energy type, e.g. *k*, *q* or  Reynolds Stress *R* 
+
+
+Turbulence modelling includes a range of methods, e.g. *RAS* or large-eddy simulation (*LES*), that are provided in OpenFOAM. In most transient solvers, the choice of turbulence modelling method is selectable at run-time through the simulationType keyword in turbulenceProperties dictionary. The user can view this file in the constant directory:
+
+.. code:: bash 
+
+ simulationType  RAS;
+
+ RAS
+ {
+    RASModel        kEpsilon;
+
+    turbulence      on;
+
+    printCoeffs     on;
+ }
+
+The options for *simulationType* are *laminar*, *RAS* and *LES*. 
+More informaton on turbulence models can be found in the Extended Code Guide 
+With RAS selected in this case, the choice of *RAS* modelling is specified in 
+a turbulenceProperties subdictionary, also in the constant directory. 
+The turbulence model is selected by the *RASModel* entry from a long list of 
+available models that are listed in User Guide Table. The k-Epsilon model 
+should be selected which is is the standard k-epsilon 
+ the user should also ensure that turbulence calculation is switched on.
+
+Final you can run the case with commands:
+
+.. code:: bash
+
+ $ blockMesh
+ $ pisoFoam
+
+
