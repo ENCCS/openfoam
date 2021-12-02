@@ -192,7 +192,26 @@ snappyHexMesh
 .. image:: ./img/snappyHexMesh_layer.png
 
 Function objects
-__________________
+________________
+
+.. code:: bash
+
+ ...
+ $ less system/controlDict
+ {
+    #include "streamLines"
+    #include "wallBoundedStreamLines"
+    #include "cuttingPlane"
+    #include "forceCoeffs"
+    #include "ensightWrite"
+ }
+
+ $ ls system
+ blockMeshDict     decomposeParDict.6  fvSolution         surfaceFeatureExtractDict
+ controlDict       ensightWrite        meshQualityDict    wallBoundedStreamLines
+ cuttingPlane      forceCoeffs         snappyHexMeshDict
+ decomposeParDict  fvSchemes           streamLines
+
 
 
 Numerical schemes and solvers

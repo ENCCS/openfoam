@@ -69,7 +69,7 @@ Tentative schedule
    * - Day 2
      -
    * - 9:15 -  10:00
-     - Function objects ('Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day_2_function_objects.pdf>'_) 
+     - Function objects (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day_2_function_objects.pdf>`_) 
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
