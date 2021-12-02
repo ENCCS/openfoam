@@ -48,15 +48,15 @@ Tentative schedule
    * - 9:00 -  9:15
      - Welcome and introduction to the training course
    * - 9:15 -  10:00 
-     - Introduction to PDC and the HPC system
+     - Introduction to PDC and the HPC system (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`_)
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Introduction to the finite volume (FV) method  
+     - Introduction to the finite volume (FV) method  (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day1_finite_volume.pdf>`_) 
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00 
-     - Workflow overview for OpenFOAM
+     - Workflow overview for OpenFOAM (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day1_overview_of_openfoam.pdf>`_)
    * - 12:00 - 13:00
      - Lunch break
    * - 13:00 - 15:00
@@ -69,7 +69,7 @@ Tentative schedule
    * - Day 2
      -
    * - 9:15 -  10:00
-     - Function objects (probes, time-averages, residuals etc.)
+     - Function objects ('Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day_2_function_objects.pdf>'_) 
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
