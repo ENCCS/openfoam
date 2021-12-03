@@ -7,7 +7,8 @@ This case uses OpenFOAM to calculate the steady flow around a motorbike and ride
 
 .. image:: img/motorbike_overall.png
 
-- As OpenFOAM cases are not backward compatible, always copy cases from *$FOAM_TUTORIALS* of current version
+
+Notice that OpenFOAM cases are not backward compatible, please always copy cases from *$FOAM_TUTORIALS* of current version
 
 .. code:: bash
 
@@ -60,9 +61,16 @@ This case uses OpenFOAM to calculate the steady flow around a motorbike and ride
 size of (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.
 The workflow is following
 
-.. image:: img/motorbike_blockmesh.png
 
-.. image:: img/motorbike_snappyhexmesh.png
+The following tasks are suggested during the hands-on session.
+
+- Try to change some parameters in the snappyHexMeshDict, can you see what happens? (maybe, we provide suggestions for what to
+change, work in progress).
+
+- Think about what you typically look at in your CFD simulations. See if you can find a suitable function object.
+(Suggestions: forces, inlet-outlet mass flow balance, y+ values, Co-number, velocity min/max, etc.)
+
+You can also follow the tasks below
 
 Run the case by default
 -----------------------
@@ -72,9 +80,43 @@ Run the case by default
  $ source $FOAM_BASHRC
  $ ./Allrun # run the workflow
 
-The result is shown in the following figure
+The script *Allrun* is a script to collect all commands for whole workflow. These commands can be run in separately.
 
-.. image:: img/motorbike_result.png
+.. code:: bash
+
+ # Copy motorbike surface from resources directory
+ cp $FOAM_TUTORIALS/resources/geometry/motorBike.obj.gz constant/triSurface/
+   
+ # Extracts and writes surface features to file
+ surfaceFeatureExtract
+
+ # Create a block mesh
+ blockMesh
+
+ # Decompose a mesh for parallelization
+ decomposePar 
+
+ # Run the snappyHexMesh
+ snappyHexMesh -parallel -overwrite
+
+ # Writes fields and boundary condition info for each patch
+ patchSummary -parallel
+
+ # Run a potential flow solver
+ potentialFoam -parallel -writephi
+
+ # Check the mesh quality
+ checkMesh  -constant
+
+ # Run the steady-state solver for incompressible flow
+ simpleFoam -parallel
+
+ # Reconstruct the mesh using geometric information
+ reconstructParMesh -constant
+
+ # Reconstruct fields of the parallel case
+ reconstructPar -latestTimeestore0Dir -processor
+
 
 Validating the model
 --------------------
@@ -114,10 +156,10 @@ to
 
 .. code:: bash
 
- numberOfSubdomains 24; #// MPI-rank
- method hierarchical;
+ numberOfSubdomains 24; // MPI-rank
+ method scotch;         // using scotch for partition
 
-(Note: If you still used “method hierarchical”, the hierarchicalCoeffs in the file
+(Note: If you still used *method hierarchical*, the *hierarchicalCoeffs* in the file
 should be coordinately changed)
 
 .. code:: bash
@@ -159,6 +201,14 @@ to
 
 i.e. the mesh size in x, y, and z-directory increases twice. The script *Allclean* can be used to delete the log files and remove the results from motorBike run and then rerun again.
 
+(Notice: Please do not refine the mesh too much. Otherwise execution time becomes very long)
+
+.. code :: bash
+ $ ./Allclean
+ $ ./Allrun
+
+The total number of cells is around 1.8 M (check it the log.snappyHexMesh) 
+
 .. code:: bash
 
  Layer mesh : cells:1892612  faces:5875533  points:2112502
@@ -168,28 +218,12 @@ snappyHexMesh
 
 - Includes three (optional) steps from a triangle surfacce obtained from e.g. CAD models.
 
-.. image::  ./img/snappyHexMesh_surface.png
-
-.. image:: ./img/snappyHexMesh_blockmesh.png
-
 .. code:: bash
 
  // Which of the steps to run
  castellatedMesh true;
  snap            true;
  addLayers       true;
-
-- *castellatedMesh* : refines around surface and features and then splits cell by region
-
-.. image:: ./img/snappyHexMesh_castellated.png
-
-- *snap* : snaps cells to surface
-
-.. image:: ./img/snappyHexMesh_snap.png
-
-- *addLayers* add layers (e.g. boundary layers) if necessary 
-
-.. image:: ./img/snappyHexMesh_layer.png
 
 Function objects
 ________________
@@ -198,6 +232,8 @@ ________________
 
  ...
  $ less system/controlDict
+
+ functions
  {
     #include "streamLines"
     #include "wallBoundedStreamLines"
@@ -217,4 +253,11 @@ ________________
 Numerical schemes and solvers
 -----------------------------
 
+
+Post-processing
+---------------
+
+You can use post-processing tool such as paraview to visualize the results, One example is shown in the following figure
+
+.. image:: img/motorbike_result.png
 

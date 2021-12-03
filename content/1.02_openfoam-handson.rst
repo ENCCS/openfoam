@@ -74,7 +74,6 @@ The general workflow for a OpenFOAM case is shown as follows
  simpleFOAM // run application(OpenFOAM solver) (set by system/controlDict)
 
 
-
 Case: Lid-driven cavity flow
 ============================
 
@@ -82,7 +81,23 @@ This case uses OpenFOAM to calculate the incompressible flow in a two-dimensiona
 
  .. image:: img/cavity2D_geometry.png
 
-- As OpenFOAM cases are not backward compatible, always copy cases from *$FOAM_TUTORIALS* of current version
+
+The following tasks are suggested during this hands-on session. You can also follow the examples for some tasks below
+
+- Follow the instructions above to recap what we learned. Start by running on your laptop and inspecting results in paraview.
+
+- Login to Tegner, load the openfoam module. Copy your cavity case to the cluster.
+
+- Book an interactive node and try running the case in serial.
+
+- Make a denser mesh, decompose the case to 24 processors and run in parallel. Reconstruct the case using reconstructPar.
+
+- Use the case as a sandbox to change various settings and play with the parameters. Use the "banana-trick" to learn about
+( possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.)
+
+
+
+Notice that OpenFOAM cases are not backward compatible. Please always copy cases from *$FOAM_TUTORIALS* of current version
 
 .. code:: bash
 
@@ -152,20 +167,6 @@ Validating the model
 
  End
 
-Post-processing
----------------
-
-The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrapper of *paraview* (www.paraview.org).  The *paraFoam* post-processing is started by typing in the terminal from within the case directory with loading *paraview* module.
- 
-.. code:: bash
-
- $ module add paraview/5.8.1-gcc-7.2
- $ paraFoam
-
-.. image:: img/cavity2D_mesh.png
-
-.. image:: img/cavity2D_pressure.png
-
 Creating the finer mesh
 -----------------------
 We can increase the number of cells in the mesh by using *blockMesh*. In *system/blockMeshDict*, the default mesh size is *(20 20 1)*, 
@@ -183,7 +184,7 @@ The mesh size can be refined to ex. *(40 40 1)*,
 
  blocks
  (
-    hex (0 1 2 3 4 5 6 7) (20 20 1) simpleGrading (1 1 1)
+    hex (0 1 2 3 4 5 6 7) (40 40 1) simpleGrading (1 1 1)
  ); 
 
 And then rerun the command *blockMesh* and *icoFoam* to generate new results with the refine mesh
@@ -211,7 +212,7 @@ to
 
 .. code:: bash
 
- nu              0.01;
+ nu              0.001;
 
 
 Increase the *endTime* from *0.5* to *2* so that *icoFoam*  run upto 2 seconds.
@@ -220,8 +221,8 @@ Increase the *endTime* from *0.5* to *2* so that *icoFoam*  run upto 2 seconds.
 
  $ icoFoam
 
-High Reynolds number flow
--------------------------
+High Reynolds number flow (advanced)
+------------------------------------
 
 The need to increase spatial and temporal resolution then becomes impractical as the flow moves into the turbulent regime, where problems of solution stability may also occur. 
 Instead Reynolds-averaged simulation (RAS) turbulence models are used to solve for the mean 
@@ -290,4 +291,17 @@ Final you can run the case with commands:
  $ blockMesh
  $ pisoFoam
 
+Post-processing (advanced)
+--------------------------
+
+The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrapper of *paraview* (www.paraview.org).  The *paraFoam* post-processing is started by typing in the terminal from within the case directory with loading *paraview* module.
+
+.. code:: bash
+
+ $ module add paraview/5.8.1-gcc-7.2
+ $ paraFoam
+
+.. image:: img/cavity2D_mesh.png
+
+.. image:: img/cavity2D_pressure.png
 
