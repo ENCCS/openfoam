@@ -220,10 +220,45 @@ snappyHexMesh
 
 .. code:: bash
 
+ $ less system/snappyHexMeshDict
+
  // Which of the steps to run
  castellatedMesh true;
  snap            true;
  addLayers       true;
+
+There are many settings in can be modified to refine and improve the mesh quality. For examples,
+
+.. code:: bash
+
+ $ less system/snappyHexMeshDict
+ ...
+
+ // Geometry refinement for wak region 
+ geometry
+ {
+    refinementBox
+    {
+        type box;
+        min  (-1.0 -0.7 0.0);
+        max  ( 8.0  0.7 2.5);
+    }
+ }
+ 
+ ...
+
+   // Region refinement used in Castellated mesh generation.
+   refinementRegions
+    {
+        refinementBox
+        {
+            mode inside;
+            levels ((1E15 4));
+        }
+    }
+
+  ...
+
 
 Function objects
 ________________
@@ -253,11 +288,47 @@ ________________
 Numerical schemes and solvers
 -----------------------------
 
+The numerical schemes are setting in the *system/fvSchemes*.
+ 
+.. code:: bash
+
+ ...
+ ddtSchemes  // for time derivatives term
+
+ gradSchemes // for divergence/convection term 
+
+ divSchemes  // for gradient term
+
+ laplacianSchemes // for Laplacian term
+  ...
+
+The solvers are selected in the *system/fvSolution*
+
+.. code:: bash
+
+ ...
+     p  // GAMG is recommended for pressure
+    {
+        solver          GAMG;
+        smoother        GaussSeidel;
+    ...
+    U  // for velocities
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+ ...
+
+More details about the OpenFOAM schemes and solvers can be found at `OpenFOAM: User Guide <https://www.openfoam.com/documentation/guides/latest/doc/index.html>`_
 
 Post-processing
 ---------------
 
 You can use post-processing tool such as paraview to visualize the results, One example is shown in the following figure
+
+.. code:: bash
+
+  $ module add paraview
+  $ paraFoam
 
 .. image:: img/motorbike_result.png
 
