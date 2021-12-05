@@ -1,4 +1,4 @@
-.. _openfoam-handson:
+.. _openfoam-handson-motorbike:
 
 MotorBike Case
 ==============
@@ -58,17 +58,17 @@ Notice that OpenFOAM cases are not backward compatible, please always copy cases
     ├── snappyHexMeshDict (the dictionary for adding a mesh for simulating surface interactions)
 
 - The default setting is to run the application simpleFoam on 6 MPI-rank with block
-size of (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.
-The workflow is following
+  size of (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.
+  The workflow is following
 
 
 The following tasks are suggested during the hands-on session.
 
 - Try to change some parameters in the snappyHexMeshDict, can you see what happens? (maybe, we provide suggestions for what to
-change, work in progress).
+  change, work in progress).
 
 - Think about what you typically look at in your CFD simulations. See if you can find a suitable function object.
-(Suggestions: forces, inlet-outlet mass flow balance, y+ values, Co-number, velocity min/max, etc.)
+  (Suggestions: forces, inlet-outlet mass flow balance, y+ values, Co-number, velocity min/max, etc.)
 
 You can also follow the tasks below
 
@@ -204,6 +204,7 @@ i.e. the mesh size in x, y, and z-directory increases twice. The script *Allclea
 (Notice: Please do not refine the mesh too much. Otherwise execution time becomes very long)
 
 .. code :: bash
+
  $ ./Allclean
  $ ./Allrun
 

@@ -1,4 +1,4 @@
-.. _openfoam-handson:
+.. _openfoam-handson-cavity:
 
 
 What is OpenFOAM ?
@@ -93,9 +93,7 @@ The following tasks are suggested during this hands-on session. You can also fol
 - Make a denser mesh, decompose the case to 24 processors and run in parallel. Reconstruct the case using reconstructPar.
 
 - Use the case as a sandbox to change various settings and play with the parameters. Use the "banana-trick" to learn about
-( possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.)
-
-
+  ( possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.)
 
 Notice that OpenFOAM cases are not backward compatible. Please always copy cases from *$FOAM_TUTORIALS* of current version
 
@@ -282,9 +280,9 @@ a turbulenceProperties subdictionary, also in the constant directory.
 The turbulence model is selected by the *RASModel* entry from a long list of 
 available models that are listed in User Guide Table. The k-Epsilon model 
 should be selected which is is the standard k-epsilon 
- the user should also ensure that turbulence calculation is switched on.
+the user should also ensure that turbulence calculation is switched on.
 
-Final you can run the case with commands:
+Finally, you can run the case with commands:
 
 .. code:: bash
 
