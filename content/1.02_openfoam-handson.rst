@@ -96,6 +96,8 @@ This case uses OpenFOAM to calculate the incompressible flow in a two-dimensiona
 
 Here are some suggestions for this hands-on session.
 
+- Write questions on `Hackmd <https://hackmd.io/@enccs/openfoam-12-2021>`_.
+
 - Follow the instructions below to recap what we learned during th lecture.
   The material is written for the Tegner cluster, but you can start on your laptop for maximum interactivity.
 
@@ -104,6 +106,8 @@ Here are some suggestions for this hands-on session.
   Of course, you can use another post-processor of your liking.
 
 - At some point, do login to Tegner, and get comfortable with running on iteractive nodes.
+  For that, follow the instructions in the `slides by Arash <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`_.
+
 
 - Use the case as a sandbox to change various settings and play with the parameters. Use the "banana-trick" to learn about
   possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.
@@ -249,8 +253,8 @@ We can set the time-step to 0.0005.
 
  deltaT 0.0005;
 
-Creating the finer mesh
------------------------
+Running in parallel
+-------------------
 
 Let us now run the case in parallel.
 Inspecting *system/decomposeParDict*, we see that the case is set to be decomposed into 4 subdomains.
@@ -289,6 +293,7 @@ To do yourself:
 
 - Go through https://www.pdc.kth.se/support/documents/run_jobs/job_scheduling.html#how-to-submit-jobs to learn how to
   submit jobs to the cluster queue. Try to submit your cavity case as a short queued job.
+  A simple jobs script example is available in the `slides by Arash <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`_.
 
 
 Increasing the Reynolds number
