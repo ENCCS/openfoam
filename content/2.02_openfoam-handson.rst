@@ -96,26 +96,29 @@ The script *Allrun* is a script to collect all commands for whole workflow. Thes
  # Decompose a mesh for parallelization
  decomposePar 
 
- # Run the snappyHexMesh
- snappyHexMesh -parallel -overwrite
+ # Run the snappyHexMesh in parallel
+ mpirun -n 6 snappyHexMesh -parallel -overwrite
+
+ # Restore the O.orig to all processors folders
+ for dir in processor*; do [ -d "$dir" ] && cp -r 0.orig "$dir/0"; done
 
  # Writes fields and boundary condition info for each patch
- patchSummary -parallel
+ mpirun -n 6 patchSummary -parallel
 
  # Run a potential flow solver
- potentialFoam -parallel -writephi
+ mpirun -n 6 potentialFoam -parallel -writephi
 
  # Check the mesh quality
  checkMesh  -constant
 
  # Run the steady-state solver for incompressible flow
- simpleFoam -parallel
+ mpirun -n 6 simpleFoam -parallel
 
  # Reconstruct the mesh using geometric information
  reconstructParMesh -constant
 
  # Reconstruct fields of the parallel case
- reconstructPar -latestTimeestore0Dir -processor
+ reconstructPar -latestTime
 
 
 Validating the model
