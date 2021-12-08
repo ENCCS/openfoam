@@ -73,7 +73,7 @@ Schedule
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Mesh generation and parallelization (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day_2_meshing.pdf>`_)
+     - Mesh generation and parallelization (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day2_meshing.pdf>`_)
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00
