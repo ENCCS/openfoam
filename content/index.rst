@@ -36,8 +36,8 @@ who would like to get started with OpenFOAM using a HPC resource.
 Basic knowledge of using Linux will be required. 
 Participants are expected to know basic numerical analysis and have CFD theoretical background.
 
-Tentative schedule
-------------------
+Schedule
+--------
 
 .. list-table::
    :widths: 25 50
@@ -73,7 +73,7 @@ Tentative schedule
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Mesh generation and parallelization
+     - Mesh generation and parallelization (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day2_meshing.pdf>`_)
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00
