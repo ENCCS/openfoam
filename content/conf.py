@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = "OpenFOAM"
-copyright = "2021, Hiphopopotamus Rhymenoceros and individual contributors."
-author = "Hiphopopotamus Rhymenoceros and individual contributors."
+copyright = "2023, ENCCS and individual contributors."
+author = "ENCCS and individual contributors."
 github_user = "ENCCS"
 github_repo_name = "OpenFOAM"
 github_version = "main"
