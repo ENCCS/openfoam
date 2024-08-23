@@ -10,10 +10,11 @@ OpenFOAM training workshop
    :maxdepth: 1
    :caption: Table of contents
 
-   1.01_openfoam-introduction
-   1.02_openfoam-handson
-   2.01_openfoam-workflow
-   2.02_openfoam-handson
+   introduction
+   workflow
+   numerics
+   mesh
+   handson
 
 
 .. toctree::
