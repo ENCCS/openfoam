@@ -21,7 +21,6 @@ OpenFOAM training workshop
    :maxdepth: 1
    :caption: Reference
 
-   setup
    quick-reference
    guide
 
@@ -49,15 +48,15 @@ Schedule
    * - 9:00 -  9:15
      - Welcome and introduction to the training course
    * - 9:15 -  10:00 
-     - Introduction to PDC and the HPC system (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`_)
+     - Introduction to PDC and the HPC system (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`__)
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Introduction to the finite volume (FV) method  (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day1_finite_volume.pdf>`_) 
+     - Introduction to the finite volume (FV) method  (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day1_finite_volume.pdf>`__) 
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00 
-     - Workflow overview for OpenFOAM (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day1_overview_of_openfoam.pdf>`_)
+     - Workflow overview for OpenFOAM (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day1_overview_of_openfoam.pdf>`__)
    * - 12:00 - 13:00
      - Lunch break
    * - 13:00 - 15:00
@@ -70,11 +69,11 @@ Schedule
    * - Day 2
      -
    * - 9:15 -  10:00
-     - Function objects (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day_2_function_objects.pdf>`_) 
+     - Function objects (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day_2_function_objects.pdf>`__) 
    * - 10:00 - 10:15
      - Break
    * - 10:15 - 11:00
-     - Mesh generation and parallelization (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day2_meshing.pdf>`_)
+     - Mesh generation and parallelization (`Slides <https://github.com/ENCCS/OpenFOAM/blob/main/day2_meshing.pdf>`__)
    * - 11:00 - 11:15
      - Break
    * - 11:15 - 12:00

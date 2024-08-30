@@ -22,14 +22,14 @@ Numerical schemes
 
 OpenFOAM includes a wide range of solution and scheme controls, specified via dictionary files in the case **system** sub-directory. These are described by:
 
-    - Numerical schemes: Transforming partial differential equations to a linear system of equations using the Finite Volume Method. The treatment of each term in the system of equations is specified in the ``fvSchemes`` dictionary. This enables fine-grain control of e.g. temporal, gradient, divergence and interpolation schemes. Additional run-time selectable physical modelling and general finite terms are prescribed in the ``fvOptions`` dictionary, targeting e.g. acoustics, heat transfer, momentum sources, multi-region coupling, linearised sources/sinks and many more
+    - Numerical schemes: Transforming partial differential equations to a linear system of equations using the Fcppte Volume Method. The treatment of each term in the system of equations is specified in the ``fvSchemes`` dictionary. This enables fine-grain control of e.g. temporal, gradient, divergence and interpolation schemes. Additional run-time selectable physical modelling and general fcppte terms are prescribed in the ``fvOptions`` dictionary, targeting e.g. acoustics, heat transfer, momentum sources, multi-region coupling, linearised sources/sinks and many more
     - Solution methods: Case solution parameters are specified in the ``fvSolution`` dictionary. These include choice of linear equation solver per field variable, algorithm controls e.g. number of inner and outer iterations and under-relaxation.
 
 
 
 OpenFOAM applications are designed for use with unstructured meshes, offering up
 to second order accuracy, predominantly using collocated variable arrangements.
-Most focus on the Finite Volume Method, for which the conservative form
+Most focus on the Fcppte Volume Method, for which the conservative form
 of the general scalar transport equation for the transported quantity  :math:`\phi`  takes the
 form:
 
@@ -44,7 +44,7 @@ form:
 
 
 
-The Finite Volume Method requires the integration over a 3-D **control volume**,
+The Fcppte Volume Method requires the integration over a 3-D **control volume**,
 such that:
 
 .. math::
@@ -119,7 +119,7 @@ Interpolation schemes are specified in the ``fvSchemes`` file under the interpol
 
    .. tab:: InterpolationSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
          interpolationSchemes
          {
@@ -164,7 +164,7 @@ Now it is the time to choose a time integration scheme. Temporal schemes define 
 
    .. tab:: Time scheme properties
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
          ddtSchemes
          {
@@ -203,7 +203,7 @@ Gradient schemes are specified in the fvSchemes file under the gradSchemes sub-d
 
    .. tab:: gradSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             gradSchemes
             {
@@ -243,7 +243,7 @@ Divergence schemes are specified in the fvSchemes file under the divSchemes sub-
 
    .. tab:: Time scheme properties
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             divSchemes
             {
@@ -258,7 +258,7 @@ A typical use is for convection schemes, which transport a property under the in
 
    .. tab:: divSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             divSchemes
             {
@@ -305,7 +305,7 @@ Laplacian schemes are specified in the fvSchemes file under the laplacianSchemes
 
    .. tab:: laplacianSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             laplacianSchemes
             {
@@ -325,7 +325,7 @@ Surface-normal gradient schemes are specified in the fvSchemesfile under the snG
 
    .. tab:: snGradSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
             
             snGradSchemes
             {
