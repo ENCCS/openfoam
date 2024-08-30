@@ -119,7 +119,7 @@ Interpolation schemes are specified in the ``fvSchemes`` file under the interpol
 
    .. tab:: InterpolationSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
          interpolationSchemes
          {
@@ -164,7 +164,7 @@ Now it is the time to choose a time integration scheme. Temporal schemes define 
 
    .. tab:: Time scheme properties
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
          ddtSchemes
          {
@@ -203,7 +203,7 @@ Gradient schemes are specified in the fvSchemes file under the gradSchemes sub-d
 
    .. tab:: gradSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             gradSchemes
             {
@@ -243,7 +243,7 @@ Divergence schemes are specified in the fvSchemes file under the divSchemes sub-
 
    .. tab:: Time scheme properties
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             divSchemes
             {
@@ -258,7 +258,7 @@ A typical use is for convection schemes, which transport a property under the in
 
    .. tab:: divSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             divSchemes
             {
@@ -305,7 +305,7 @@ Laplacian schemes are specified in the fvSchemes file under the laplacianSchemes
 
    .. tab:: laplacianSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             laplacianSchemes
             {
@@ -325,7 +325,7 @@ Surface-normal gradient schemes are specified in the fvSchemesfile under the snG
 
    .. tab:: snGradSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
             
             snGradSchemes
             {

@@ -135,7 +135,6 @@ Some stuff worth noting here:
   
 - After running the case we need to reconstruct not only the data but also the mesh, which was generated in parallel. For that, we use *reconstructParMesh*.
   The *-constant* flag makes it put the mesh directly into *constant/polyMesh*.
->>>>>>> 43626f76ddfad1862f79bbc9a72c0ba77f587f07
 
 
 Validating the model

@@ -94,7 +94,7 @@ A few examples of the dictionaries are shown below:
 
    .. tab:: controlDict
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             /*--------------------------------*- C++ -*----------------------------------*\
             | =========                 |                                                 |
@@ -149,7 +149,7 @@ A few examples of the dictionaries are shown below:
 
    .. tab:: fvSchemes
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             /*--------------------------------*- C++ -*----------------------------------*\
             | =========                 |                                                 |
@@ -205,7 +205,7 @@ A few examples of the dictionaries are shown below:
 
    .. tab:: fvSolution
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             /*--------------------------------*- C++ -*----------------------------------*\
             | =========                 |                                                 |
@@ -273,7 +273,7 @@ OpenFOAM input dictionaries are designed to be human-readable ASCII text files, 
 
    .. tab:: dictionary
 
-      .. code-block:: txt
+      .. code-block:: cpp
 
             dictionary_name
             {
