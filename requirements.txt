@@ -183,7 +183,9 @@ sphinx==7.4.7
     #   sphinx-togglebutton
     #   sphinxcontrib-jquery
 sphinx-autobuild==2024.4.16
-    # via sphinx-lesson
+    # via
+    #   -r requirements.in
+    #   sphinx-lesson
 sphinx-copybutton==0.5.2
     # via sphinx-lesson
 sphinx-lesson==0.8.16
