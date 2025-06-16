@@ -21,7 +21,7 @@ OpenFOAM Introduction
 What is OpenFOAM ?
 ------------------
 
-- OpenFOAM® (for “Open-source Field Operation And Manipulation”) is an open source Computation Fluid Dynamics (CFD) solve released and developed primarily by OpenCFD Ltd since 2004. 
+- OpenFOAM® (for “Open-source Field Operation And Manipulation”) is an open source general solver of Partial differential equations (PDEs) via the finite volume method. It is particularly popular in the computational fluid dynamics (CFD) community. 
 
 - It has a large user base across most areas of engineering and science, from both commercial and academic organizations. 
 
@@ -33,14 +33,14 @@ Different variants of OpenFOAM
 
 There are two main variants of OpenFOAM:
 
-    OpenCFD Ltd version (`www.openfoam.com <http://www.openfoam.com>`_):
+    OpenCFD Ltd aka ESI version (`www.openfoam.com <http://www.openfoam.com>`_):
         - New versions released twice a year (June-December)
         - Versions are named as (vYYMM) e.g. v1912
         - Website: https://www.openfoam.com
 
     OpenFOAM foundation version (`www.openfoam.org <http://www.openfoam.org>`_):
         - No defined date for new release 
-        - Versions are named with with two digits like 4.1
+        - Semantic versioning is used. The most recent version is 12.
         - Website: https://openfoam.org
 
 
@@ -57,26 +57,19 @@ It depends on the features you want to use
     - If both include the features you need, do some performance and accuracy benchmarks to see which one is better
     - Otherwise it is just matter of taste!
 
-We will be using the OpenCFD Ltd version with vXXXXXX for the training
-
 
 OpenFOAM executables
 --------------------
 
-Unlike many other software, OpenFOAM does not have a unique executable. 
-Once compiled, a large number of excutebles is generated and they fall into two categories: 
+Historically, unlike many other software, OpenFOAM does not have a unique executable. 
+Once compiled, a large number of executables is generated, which fall into two categories: 
 
   - **solver**: that is designed to solve a specific continuum mechanics problem
-  - **utility**: that is designed to perform tasks that involve data manipulation.
+  - **utility**: that is designed to perform tasks that involve data manipulation, mesh generation/conversion, etc.
 
-For every solver, mesh generation etc. there is a separate executable! 
-You should run the right executable according to the solver you are using!
-Check the documentation to see recommended solvers for different cases.
-
-- ‘simpleFoam’: if you use SIMPLE algorithm
-- ‘icoFoam’: if you use PISO algorithm for laminar flow
-- ...
-
+This is the case for the ESI version of OpenFOAM and used to be for OpenFOAM foundation until version 10. 
+From OpenFOAM 11 onwards, a radical shift of paradigm has taken place: so-called `modular <https://cfd.direct/openfoam/free-software/modular-solvers/>`__
+solvers have been introduced
 
 OpenFOAM vs commercial software
 -------------------------------
