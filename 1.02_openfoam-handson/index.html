@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What is OpenFOAM ? &mdash; OpenFOAM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=0c089442" />
+      <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../_static/overrides.css?v=0572569b" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/minipres.js?v=a0d29692"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script data-domain="enccs.github.io/openfoam" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            OpenFOAM
+              <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">OpenFOAM Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerics/">Numerics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/">Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../handson/">Case Study</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">OpenFOAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">What is OpenFOAM ?</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/OpenFOAM/blob/main/content/1.02_openfoam-handson.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="what-is-openfoam">
+<span id="openfoam-handson-cavity"></span><h1>What is OpenFOAM ?<a class="headerlink" href="#what-is-openfoam" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>OpenFOAM is an open source Computation Fluid Dynamics (CFD) solve released and developed primarily by OpenCFD Ltd since 2004.</p></li>
+<li><p>It has a large user base across most areas of engineering and science, from both commercial and academic organizations.</p></li>
+<li><p>OpenFOAM has an extensive range of features to solve anything from complex fluid flows involving chemical reactions, turbulence and heat transfer, to acoustics, solid mechanics and electromagnetics.</p></li>
+<li><p>There are two main branches of OpenFOAM,</p>
+<ul>
+<li><p>one is from OpenFOAM Foundation (<a class="reference external" href="http://www.openfoam.org">www.openfoam.org</a>),</p></li>
+<li><p>and the other is OpenCFD Ltd (<a class="reference external" href="http://www.openfoam.com">www.openfoam.com</a>).</p></li>
+<li><p>In this guide, we only consider the later</p></li>
+</ul>
+</li>
+<li><p>Extensive guides, tutorials, code samples and documentation on the OpenFOAM
+can be found at <a class="reference external" href="http://www.openfoam.com">www.openfoam.com</a>.</p></li>
+</ul>
+</section>
+<section id="general-information">
+<h1>General Information<a class="headerlink" href="#general-information" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>There are usually three subfolders (<strong>0</strong>, <strong>constant</strong> and <strong>system</strong>) for all OpenFOAM cases</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls
+<span class="m">0</span><span class="w"> </span>constant<span class="w"> </span>system
+</pre></div>
+</div>
+<p>The folder <strong>0</strong> includes the initial and boundary conditions for the flow quantities.
+In <strong>constant/polyMesh</strong> the computational mesh is stored.
+The files <strong>transportProperties</strong> and <strong>turbulenceProperties</strong> in <strong>constant</strong> are used to define the material properties
+of the fluid and the turbulence modelling approach, respectively.
+Additional data like STL files is also stored in <strong>constant</strong>.
+The <strong>system</strong> folder includes the various dictionaries (Dict) that control different aspects of the simulation.
+For example, we can modify the following files</p>
+<ul class="simple">
+<li><p><strong>system/blockMeshDict</strong>: to control the block-structrued mesher <strong>blockMesh</strong>.</p></li>
+<li><p><strong>system/snappyHexMeshDict</strong>: to set the parameters for snappyHexMesh, another mesher shipped with <strong>OpenFOAM</strong>.</p></li>
+<li><p><strong>system/decomposeParDict</strong> : to set the parameters of the domain decomposition used for running <strong>OpenFOAM</strong> in parallel.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>numberOfSubdomains<span class="w"> </span><span class="m">16</span><span class="p">;</span><span class="w"> </span>//<span class="w"> </span>Set<span class="w"> </span>the<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>used<span class="w"> </span>processes<span class="w"> </span><span class="o">(</span><span class="m">16</span><span class="o">)</span>?
+method<span class="w"> </span>scotch<span class="p">;</span><span class="w"> </span>//<span class="w"> </span>Set<span class="w"> </span>the<span class="w"> </span>partition<span class="w"> </span>method<span class="w"> </span><span class="o">(</span>scotch<span class="o">)</span><span class="w"> </span>?
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>system/controlDict</strong>: multiple simulation control parameters.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>application<span class="w"> </span>simpleFoam<span class="p">;</span><span class="w"> </span>//<span class="w"> </span>Set<span class="w"> </span>the<span class="w"> </span>OpenFOAM<span class="w"> </span>solver<span class="w"> </span><span class="o">(</span>simpleFoam<span class="o">)</span>
+...
+endTime<span class="w"> </span><span class="m">500</span><span class="p">;</span><span class="w"> </span>//<span class="w"> </span>Set<span class="w"> </span>the<span class="w"> </span><span class="nb">time</span><span class="w"> </span>steps<span class="w"> </span><span class="o">(</span><span class="m">500</span><span class="w"> </span>steps<span class="o">)</span>
+...
+writeInterval<span class="w"> </span><span class="m">100</span><span class="p">;</span><span class="w"> </span>//<span class="w"> </span>Write<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>files<span class="w"> </span><span class="o">(</span>per<span class="w"> </span><span class="m">100</span><span class="w"> </span>steps<span class="o">)</span>
+...
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>system/fvSolution</strong>: iterative solver and pressure-velocity coupling parameters.</p></li>
+<li><p><strong>system/fvSchemes</strong>: selection of numerical schemes.</p></li>
+</ul>
+<p>A typical workflow for an OpenFOAM case is schematically shown below</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Start
+<span class="w">  </span><span class="p">|</span>
+<span class="w">  </span>v
+blockMesh<span class="w"> </span>//<span class="w"> </span>Create<span class="w"> </span>a<span class="w"> </span>block<span class="w"> </span>mesh<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>by<span class="w"> </span>system/blockMeshDict<span class="o">)</span>
+<span class="w">  </span><span class="p">|</span>
+<span class="w">  </span>v
+decomposePar<span class="w"> </span>//<span class="w"> </span>Divide<span class="w"> </span>into<span class="w"> </span>submeshes<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>by<span class="w"> </span>system/decomposeParDict<span class="o">)</span>
+<span class="w">  </span><span class="p">|</span>
+<span class="w">  </span>v
+snappyHexMesh<span class="w"> </span>//<span class="w"> </span>create<span class="w"> </span>complex<span class="w"> </span>mesh<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>by<span class="w"> </span>system/snappyHexMeshDict<span class="o">)</span>
+<span class="w">  </span><span class="p">|</span>
+<span class="w">  </span>V
+simpleFoam<span class="w"> </span>//<span class="w"> </span>run<span class="w"> </span>application<span class="o">(</span>OpenFOAM<span class="w"> </span>solver<span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>by<span class="w"> </span>system/controlDict<span class="o">)</span>
+<span class="w">  </span><span class="p">|</span>
+<span class="w">  </span>V
+reconstructPar<span class="w"> </span>//<span class="w"> </span>Stitch<span class="w"> </span>together<span class="w"> </span>the<span class="w"> </span>solutions<span class="w"> </span>from<span class="w">  </span>the<span class="w"> </span>submeshes
+
+Of<span class="w"> </span>course,<span class="w"> </span>this<span class="w"> </span>can<span class="w"> </span>vary<span class="w"> </span>depending<span class="w"> </span>on<span class="w"> </span>what<span class="w"> </span>mesher<span class="w"> </span>you<span class="w"> </span>use,<span class="w"> </span>wether<span class="w"> </span>you<span class="w"> </span>run<span class="w"> </span><span class="k">in</span><span class="w"> </span>parallel,
+etc.<span class="w"> </span>There<span class="w"> </span>may<span class="w"> </span>also<span class="w"> </span>be<span class="w"> </span>additional<span class="w"> </span>pre-<span class="w"> </span>or<span class="w"> </span>post-processing<span class="w"> </span>steps.
+</pre></div>
+</div>
+</section>
+<section id="case-lid-driven-cavity-flow">
+<h1>Case: Lid-driven cavity flow<a class="headerlink" href="#case-lid-driven-cavity-flow" title="Link to this heading"></a></h1>
+<p>This case uses OpenFOAM to calculate the incompressible flow in a two-dimensional square domain, see the Figure blow</p>
+<blockquote>
+<div><img alt="../_images/cavity2D_geometry.png" src="../_images/cavity2D_geometry.png" />
+</div></blockquote>
+<p>Here are some suggestions for this hands-on session.</p>
+<ul class="simple">
+<li><p>Write questions on <a class="reference external" href="https://hackmd.io/&#64;enccs/openfoam-12-2021">Hackmd</a>.</p></li>
+<li><p>Follow the instructions below to recap what we learned during th lecture.
+The material is written for the Tegner cluster, but you can start on your laptop for maximum interactivity.</p></li>
+<li><p>Although post-processing with Paraview is listed as optional (see last section in the hands-on), it is very highly recommended that
+you install Paraview on your machine and inspect the results of the OpenFOAM simulations.
+Of course, you can use another post-processor of your liking.</p></li>
+<li><p>At some point, do login to Tegner, and get comfortable with running on iteractive nodes.
+For that, follow the instructions in the <a class="reference external" href="https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf">slides by Arash</a>.</p></li>
+<li><p>Use the case as a sandbox to change various settings and play with the parameters. Use the “banana-trick” to learn about
+possible options: change any dictionary keyword to “banana”, the case will crash showing possible valid options for the keyword.</p></li>
+<li><p>If you have CFD experience, ask yourself: what settings would I typically need to change?
+Then try to figure out what dictionaries and keywords correspond to that. The teachers are there to help!
+Try also to dig online a little bit yourself: one of the course outcomes is that you should be able to continue develop your skills
+on your own.</p></li>
+</ul>
+<p>To use OpenFOAM on Tegner, we first need to load the appropriate module.
+This is followed by sourcing <em>$FOAM_BASHRC</em> to activate the OpenFOAM environment.
+The <em>$FOAM_TUTORIALS</em> will then store the path to the tutorial collection shipped with OpenFOAM.
+Note, you can also use the <em>tut</em> command to jump to the tutorial directory and look around.
+<strong>Important:</strong> Always copy the tutorial to a folder where you have full write permission, never execute tutorials inside <em>$FOAM_TUTORIALS</em>.
+Also, as OpenFOAM cases are not always backward-compatible, please make sure to always copy cases from <em>$FOAM_TUTORIALS</em> of the current version you are using.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>add<span class="w"> </span>openfoam/1912<span class="w">  </span><span class="c1"># Using OpenFOAM v1912</span>
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$FOAM_BASHRC</span>
+/pdc/vol/openfoam/v1912/OpenFOAM-v1912/etc/bashrc
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="nv">$FOAM_BASHRC</span>
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span><span class="nv">$FOAM_TUTORIALS</span>/incompressible/icoFoam/cavity/cavity<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The structure of the case is shown in the following</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>cavity
+$<span class="w"> </span>ls
+<span class="m">0</span><span class="w"> </span>constant<span class="w"> </span>system
+
+$<span class="w"> </span>tree
+
+├──<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span><span class="nb">time</span><span class="w"> </span>directory<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span><span class="nv">T</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span>initial<span class="w"> </span>conditions<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>p<span class="w"> </span><span class="o">(</span>pressure<span class="o">)</span>
+│<span class="w">   </span>└──<span class="w"> </span>U<span class="w"> </span><span class="o">(</span>flow<span class="w"> </span>velocity<span class="o">)</span>
+├──<span class="w"> </span>Allrun<span class="w"> </span><span class="o">(</span>precanned<span class="w"> </span>run<span class="w"> </span>file<span class="o">)</span>
+├──<span class="w"> </span>constant<span class="w"> </span><span class="o">(</span>hard<span class="w"> </span>static<span class="w"> </span>stuff<span class="w"> </span>i.e.<span class="w"> </span>physical<span class="w"> </span>properties<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>transportProperties<span class="w"> </span><span class="o">(</span>Transport<span class="w"> </span>Model<span class="w"> </span>e.g.<span class="w"> </span>Newtonian<span class="o">)</span>
+└──<span class="w"> </span>system
+<span class="w">   </span>├──<span class="w"> </span>blockMeshDict
+<span class="w">   </span>├──<span class="w"> </span>controlDict<span class="w"> </span><span class="o">(</span>the<span class="w"> </span>main<span class="w"> </span>dictionary<span class="w"> </span><span class="k">for</span><span class="w"> </span>controlling<span class="w"> </span>the<span class="w"> </span>simulation<span class="o">)</span>
+<span class="w">   </span>├──<span class="w"> </span>fvSchemes
+<span class="w">   </span>├──<span class="w"> </span>fvSolution
+<span class="w">   </span>├──<span class="w"> </span>PDRblockMeshDict
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The default setting is to run the application <em>simpleFoam</em> in serial on a two-dimensional square mesh of size (20×20×1).
+Note that all OpenFOAM cases are three-dimensional. For a two-dimensional case the third dimension has a single computational cell,
+and special boundary conditions are employed.
+The case will run up to time <em>0.5</em> with <em>0.005</em> per step, i.e. a total of 100 time steps. The simulation results are stored every 20 time steps.</p></li>
+</ul>
+<section id="run-the-case-by-default">
+<h2>Run the case by default<a class="headerlink" href="#run-the-case-by-default" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>blockMesh<span class="w"> </span><span class="c1"># create the equivalent mesh of (20x20x1)</span>
+$<span class="w"> </span>icoFoam<span class="w"> </span>&gt;<span class="w"> </span>log.icoFoam
+$<span class="w"> </span>ls
+<span class="m">0</span><span class="w">  </span><span class="m">0</span>.1<span class="w">  </span><span class="m">0</span>.2<span class="w">  </span><span class="m">0</span>.3<span class="w">  </span><span class="m">0</span>.4<span class="w">  </span><span class="m">0</span>.5<span class="w">  </span>constant<span class="w">  </span>system
+</pre></div>
+</div>
+<p>Congratulations, you were able to run your first OpenFOAM case on a PDC cluster!</p>
+</section>
+<section id="inspecting-the-log-file">
+<h2>Inspecting the log file<a class="headerlink" href="#inspecting-the-log-file" title="Link to this heading"></a></h2>
+<p>To make sure everything is OK we can look at the output logs from the OpenFOAM run.
+This will show us if the run actually worked as intended.
+To do this, inspect <em>log.icoFoam</em> with your favorite editor or simply use commands like <em>tail</em>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>log.icoFoam
+<span class="nv">Time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.5
+
+Courant<span class="w"> </span>Number<span class="w"> </span>mean:<span class="w"> </span><span class="m">0</span>.222158<span class="w"> </span>max:<span class="w"> </span><span class="m">0</span>.852134
+smoothSolver:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>Ux,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>.3091e-07,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>.3091e-07,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">0</span>
+smoothSolver:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>Uy,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>.0684e-07,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>.0684e-07,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">0</span>
+DICPCG:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>p,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>.63844e-07,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>.63844e-07,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">0</span>
+<span class="nb">time</span><span class="w"> </span>step<span class="w"> </span>continuity<span class="w"> </span>errors<span class="w"> </span>:<span class="w"> </span>sum<span class="w"> </span><span class="nb">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>.8828e-09,<span class="w"> </span><span class="nv">global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>.94571e-19,<span class="w"> </span><span class="nv">cumulative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>.10417e-17
+DICPCG:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>p,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span>.59103e-07,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span>.59103e-07,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">0</span>
+<span class="nb">time</span><span class="w"> </span>step<span class="w"> </span>continuity<span class="w"> </span>errors<span class="w"> </span>:<span class="w"> </span>sum<span class="w"> </span><span class="nb">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span>.66354e-09,<span class="w"> </span><span class="nv">global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>.13175e-18,<span class="w"> </span><span class="nv">cumulative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>.21735e-17
+<span class="nv">ExecutionTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.31<span class="w"> </span>s<span class="w">  </span><span class="nv">ClockTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>s
+
+End
+</pre></div>
+</div>
+<p>There is quite a bit of information to be extracted from the logs, such as residuals of the iterative solvers and the Courant number.
+Depending on the simulation options, the logs may become more expressive, monitoring additional simulation aspects.</p>
+</section>
+<section id="creating-the-finer-mesh">
+<h2>Creating the finer mesh<a class="headerlink" href="#creating-the-finer-mesh" title="Link to this heading"></a></h2>
+<p>The cavity case is too tiny to make running in parallel a reasonable alternative.
+We will therefore make the mesh denser.
+An overview of OpenFOAM meshing will be given during day 2 of the workshop.
+For now, we just provide the instruction for refining without much explaination.
+In <em>system/blockMeshDict</em>, the default mesh size is set by the triple <em>(20 20 1)</em>,
+in the following lines.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>blocks
+<span class="o">(</span>
+<span class="w">   </span>hex<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="m">20</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>simpleGrading<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>So, to refine we can change it to e.g. <em>(100 100 1)</em>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>blocks
+<span class="o">(</span>
+<span class="w">   </span>hex<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="m">100</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>simpleGrading<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>And then rerun the command <em>blockMesh</em>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>blockMesh
+</pre></div>
+</div>
+<p>If you now run <em>icoFoam</em> you will notice that the solver is slow and that the Courant number is very high!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">Time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.01
+
+Courant<span class="w"> </span>Number<span class="w"> </span>mean:<span class="w"> </span><span class="m">0</span>.514905<span class="w"> </span>max:<span class="w"> </span><span class="m">4</span>.28024
+smoothSolver:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>Ux,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.124381,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span>.84033e-06,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">374</span>
+smoothSolver:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>Uy,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.546347,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span>.89857e-06,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">402</span>
+DICPCG:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>p,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.937878,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.0449945,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">58</span>
+<span class="nb">time</span><span class="w"> </span>step<span class="w"> </span>continuity<span class="w"> </span>errors<span class="w"> </span>:<span class="w"> </span>sum<span class="w"> </span><span class="nb">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.00115914,<span class="w"> </span><span class="nv">global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-3.719e-19,<span class="w"> </span><span class="nv">cumulative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-1.47005e-18
+DICPCG:<span class="w">  </span>Solving<span class="w"> </span><span class="k">for</span><span class="w"> </span>p,<span class="w"> </span>Initial<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.887143,<span class="w"> </span>Final<span class="w"> </span><span class="nv">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span>.90418e-07,<span class="w"> </span>No<span class="w"> </span>Iterations<span class="w"> </span><span class="m">171</span>
+<span class="nb">time</span><span class="w"> </span>step<span class="w"> </span>continuity<span class="w"> </span>errors<span class="w"> </span>:<span class="w"> </span>sum<span class="w"> </span><span class="nb">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>.39948e-08,<span class="w"> </span><span class="nv">global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-4.25067e-19,<span class="w"> </span><span class="nv">cumulative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-1.89512e-18
+<span class="nv">ExecutionTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.54<span class="w"> </span>s<span class="w">  </span><span class="nv">ClockTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>s
+</pre></div>
+</div>
+<p>This makes sense: we decreased the cell size, so to keep the Courant number reasonable we also need to change the time step.
+This is done by changing the value of the <em>deltaT</em> keyword in the <em>controlDict</em>.
+We can set the time-step to 0.0005.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deltaT<span class="w"> </span><span class="m">0</span>.0005<span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="running-in-parallel">
+<h2>Running in parallel<a class="headerlink" href="#running-in-parallel" title="Link to this heading"></a></h2>
+<p>Let us now run the case in parallel.
+Inspecting <em>system/decomposeParDict</em>, we see that the case is set to be decomposed into 4 subdomains.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>numberOfSubdomains<span class="w">  </span><span class="m">4</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>We will leave this as is and now we can decompose the case and run in parallel.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>decomposePar
+</pre></div>
+</div>
+<p>This will create directories <em>processor0</em> to <em>processor3</em>, containing the subdomains.
+To run the case, execute the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>icoFoam<span class="w"> </span>-parallel<span class="w"> </span>&gt;<span class="w"> </span>logfile.icoFoamParallel
+</pre></div>
+</div>
+<p>Upon completion we can reconstruct the solution on the whole domain:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>reconstructPar<span class="w"> </span>-latestTime
+</pre></div>
+</div>
+<p>Here, the <em>-latestTime</em> flag tells the program to only reconstruct the last time-step.</p>
+<p>To do yourself:</p>
+<ul class="simple">
+<li><p>Now that we decreased the time step there is a lot of output saved, look at e.g. <em>processor0</em>.
+Change the <em>writeInterval</em> in the <em>controlDict</em> to reduce that.</p></li>
+<li><p>Play around with mesh sizes and change <em>decomposeParDict</em> to run on a larger number of processors.</p></li>
+<li><p>Go through <a class="reference external" href="https://www.pdc.kth.se/support/documents/run_jobs/job_scheduling.html#how-to-submit-jobs">https://www.pdc.kth.se/support/documents/run_jobs/job_scheduling.html#how-to-submit-jobs</a> to learn how to
+submit jobs to the cluster queue. Try to submit your cavity case as a short queued job.
+A simple jobs script example is available in the <a class="reference external" href="https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf">slides by Arash</a>.</p></li>
+</ul>
+</section>
+<section id="increasing-the-reynolds-number">
+<h2>Increasing the Reynolds number<a class="headerlink" href="#increasing-the-reynolds-number" title="Link to this heading"></a></h2>
+<p>We will now increase the Reynolds number to <em>100</em>, at which point the solution takes a noticeably longer time to converge.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>cavity<span class="w"> </span>cavityHighRe
+</pre></div>
+</div>
+<p>and then edit <em>transportProperties</em> dictionary to reduce the kinematic viscosity to <em>0.001</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nu<span class="w">              </span><span class="m">0</span>.01<span class="p">;</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nu<span class="w">              </span><span class="m">0</span>.001<span class="p">;</span>
+</pre></div>
+</div>
+<p>Increase the <em>endTime</em> from <em>0.5</em> to <em>2</em> so that <em>icoFoam</em>  run upto 2 seconds.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>icoFoam
+</pre></div>
+</div>
+</section>
+<section id="turbulence-modelling-optional">
+<h2>Turbulence modelling (optional)<a class="headerlink" href="#turbulence-modelling-optional" title="Link to this heading"></a></h2>
+<p>The need to increase spatial and temporal resolution then becomes impractical as the flow moves into the turbulent regime, where problems of solution stability may also occur.
+Instead Reynolds-averaged simulation (RAS) turbulence models are used to solve for the mean
+flow behaviour and calculate the statistics of the fluctuations.
+The standard k-epsilon model with wall functions will be used in this tutorial to solve the lid-driven cavity case with a Reynolds number of 10^4.
+Two extra variables are solved for: k, the turbulent kinetic energy, and epsilon, the turbulent dissipation rate.
+The additional equations and models for turbulent flow are implemented into a OpenFOAM solver called <em>pisoFoam</em>.
+To setup the model you will need three additional files in the 0 directory: <em>nut</em>, <em>k</em>, <em>epsilon</em>.
+Create them by making a copy of the <em>p</em> file, and then modify them as needed.</p>
+<p>A range of wall function models is available in OpenFOAM that are applied as boundary conditions on individual patches.
+This enables different wall function models to be applied to different wall regions.
+The choice of wall function models are specified through the turbulent viscosity field, nut, in the <em>0/nut</em> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dimensions<span class="w">      </span><span class="o">[</span><span class="m">0</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>-1<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="p">;</span>
+
+internalField<span class="w">   </span>uniform<span class="w"> </span><span class="m">0</span><span class="p">;</span>
+
+boundaryField
+<span class="o">{</span>
+<span class="w">   </span>movingWall
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span><span class="nb">type</span><span class="w">            </span>nutkWallFunction<span class="p">;</span>
+<span class="w">       </span>value<span class="w">           </span>uniform<span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="w">   </span><span class="o">}</span>
+<span class="w">   </span>fixedWalls
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span><span class="nb">type</span><span class="w">            </span>nutkWallFunction<span class="p">;</span>
+<span class="w">       </span>value<span class="w">           </span>uniform<span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="w">   </span><span class="o">}</span>
+<span class="w">   </span>frontAndBack
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span><span class="nb">type</span><span class="w">            </span>empty<span class="p">;</span>
+<span class="w">   </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>You should should now open the field files for <em>k</em> and <em>epsilon</em> ( in <em>0/k</em> and <em>0/epsilon</em>) and set their boundary conditions.
+For a wall boundary condition wall, <em>epsilon</em> is assigned an <em>epsilonWallFunction</em> boundary condition and a <em>kqRwallFunction</em> boundary condition is assigned to <em>k</em>.
+The latter is a generic boundary condition that can be applied to any field that are of a turbulent kinetic energy type, e.g. <em>k</em>, <em>q</em> or  Reynolds Stress <em>R</em></p>
+<p>Turbulence modelling includes a range of methods, e.g. <em>RAS</em> or large-eddy simulation (<em>LES</em>), that are provided in OpenFOAM. In most transient solvers, the choice of turbulence modelling method is selectable at run-time through the simulationType keyword in turbulenceProperties dictionary. The user can view this file in the constant directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>simulationType<span class="w">  </span>RAS<span class="p">;</span>
+
+RAS
+<span class="o">{</span>
+<span class="w">   </span>RASModel<span class="w">        </span>kEpsilon<span class="p">;</span>
+
+<span class="w">   </span>turbulence<span class="w">      </span>on<span class="p">;</span>
+
+<span class="w">   </span>printCoeffs<span class="w">     </span>on<span class="p">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The options for <em>simulationType</em> are <em>laminar</em>, <em>RAS</em> and <em>LES</em>.
+More informaton on turbulence models can be found in the Extended Code Guide
+With RAS selected in this case, the choice of <em>RAS</em> modelling is specified in
+a turbulenceProperties subdictionary, also in the constant directory.
+The turbulence model is selected by the <em>RASModel</em> entry from a long list of
+available models that are listed in User Guide Table. The k-Epsilon model
+should be selected which is is the standard k-epsilon
+the user should also ensure that turbulence calculation is switched on.</p>
+<p>Finally, you can run the case with commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>blockMesh
+$<span class="w"> </span>pisoFoam
+</pre></div>
+</div>
+</section>
+<section id="post-processing-optional">
+<h2>Post-processing (optional)<a class="headerlink" href="#post-processing-optional" title="Link to this heading"></a></h2>
+<p>The post-processing tool supplied with OpenFOAM is <em>paraFoam</em>, which is a wrapper of <em>paraview</em> (www.paraview.org).
+The <em>paraFoam</em> post-processing is started by typing in the terminal from within the case directory with loading <em>paraview</em> module.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>add<span class="w"> </span>paraview/5.8.1-gcc-7.2
+$<span class="w"> </span>paraFoam
+</pre></div>
+</div>
+<p>Alternatively, if you can add an empty file inside the case directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>touch<span class="w"> </span><span class="k">case</span>.foam
+</pre></div>
+</div>
+<p>You can now open this file with regular Paraview, and not <em>paraFoam</em>.</p>
+<img alt="../_images/cavity2D_mesh.png" src="../_images/cavity2D_mesh.png" />
+<img alt="../_images/cavity2D_pressure.png" src="../_images/cavity2D_pressure.png" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ENCCS and individual contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

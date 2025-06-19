@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MotorBike Case &mdash; OpenFOAM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=0c089442" />
+      <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../_static/overrides.css?v=0572569b" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/minipres.js?v=a0d29692"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script data-domain="enccs.github.io/openfoam" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            OpenFOAM
+              <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">OpenFOAM Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerics/">Numerics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/">Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../handson/">Case Study</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">OpenFOAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MotorBike Case</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/OpenFOAM/blob/main/content/2.02_openfoam-handson.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="motorbike-case">
+<span id="openfoam-handson-motorbike"></span><h1>MotorBike Case<a class="headerlink" href="#motorbike-case" title="Link to this heading"></a></h1>
+<p>This case uses OpenFOAM to calculate the steady flow around a motorbike and rider using RAS turbulence modelling with wall functions.
+The initialization of flow velocity is to 20 m/s.
+The box includes the bike and ride are approximately 2.0x0.8x1.3m and the estimated characteristic length scale L=0.5m, see the Figure below.</p>
+<img alt="../_images/motorbike_overall.png" src="../_images/motorbike_overall.png" />
+<p>As you will see, this is a more advanced case than the cavity, involving <em>snappyHexMesh</em> to generate the mesh, RANS modelling,
+and using several function objects.
+The idea is to further strengthen the familiarity with OpenFOAM input and have a more fun case to play around with than the cavity.</p>
+<p>Notice that OpenFOAM cases are not backward compatible, please always copy cases from <em>$FOAM_TUTORIALS</em> of current version</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>add<span class="w"> </span>openfoam/1912
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$FOAM_BASHRC</span>
+/pdc/vol/openfoam/v1912/OpenFOAM-v1912/etc/bashrc
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="nv">$FOAM_BASHRC</span>
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span><span class="nv">$FOAM_TUTORIALS</span>/incompressible/simpleFoam/motorBike<span class="w"> </span>.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The structure of the case is shown in the following</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>motorBike
+$<span class="w"> </span>ls
+<span class="m">0</span>.orig<span class="w"> </span>Allclean<span class="w"> </span>Allrun<span class="w"> </span>constant<span class="w"> </span>system
+
+$<span class="w"> </span>tree<span class="w"> </span>-d<span class="w"> </span><span class="m">1</span><span class="w"> </span>.
+
+├──<span class="w"> </span><span class="m">0</span>.orig<span class="w"> </span><span class="o">(</span><span class="nb">time</span><span class="w"> </span>directory<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span><span class="nv">T</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span>initial<span class="w"> </span>conditions<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>include
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>fixedInlet
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>frontBackUpperPatches
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>initialConditions
+│<span class="w">   </span>├──<span class="w"> </span>k<span class="w"> </span><span class="o">(</span>turbulence<span class="w"> </span>kenetic<span class="w"> </span>energy<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>nut<span class="w"> </span><span class="o">(</span>turbulence<span class="w"> </span>viscosity<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>omega<span class="w"> </span><span class="o">(</span>turbulence<span class="w"> </span>specific<span class="w"> </span>dissipation<span class="w"> </span>rate<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>p<span class="w"> </span><span class="o">(</span>pressure<span class="o">)</span>
+│<span class="w">   </span>└──<span class="w"> </span>U<span class="w"> </span><span class="o">(</span>flow<span class="w"> </span>velocity<span class="o">)</span>
+├──<span class="w"> </span>Allclean<span class="w"> </span><span class="o">(</span>precanned<span class="w"> </span>clean<span class="w"> </span>file<span class="o">)</span>
+├──<span class="w"> </span>Allrun<span class="w"> </span><span class="o">(</span>precanned<span class="w"> </span>run<span class="w"> </span>file<span class="o">)</span>
+├──<span class="w"> </span>constant<span class="w"> </span><span class="o">(</span>hard<span class="w"> </span>static<span class="w"> </span>stuff<span class="w"> </span>i.e.<span class="w"> </span>physical<span class="w"> </span>properties<span class="o">)</span>
+<span class="p">|</span>--<span class="w"> </span>RASProperties<span class="w"> </span><span class="o">(</span>Reynolds-Averaged<span class="w"> </span>Simulation<span class="w"> </span>Model<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span>e.g.<span class="w"> </span>kOmegaSST<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>polyMesh
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>blockMeshDict
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>boundary
+│<span class="w">   </span>├──<span class="w"> </span>transportProperties<span class="w"> </span><span class="o">(</span>Transport<span class="w"> </span>Model<span class="w"> </span>e.g.<span class="w"> </span>Newtonian<span class="o">)</span>
+│<span class="w">   </span>├──<span class="w"> </span>triSurface
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>motorBike.obj.gz<span class="w"> </span><span class="o">(</span>actual<span class="w"> </span>motorbike<span class="w"> </span>model<span class="o">)</span>
+│<span class="w">   </span>└──<span class="w"> </span>turbulenceProperties
+└──<span class="w"> </span>system
+<span class="w">   </span>├──<span class="w"> </span>blockMeshDict
+<span class="w">   </span>├──<span class="w"> </span>controlDict<span class="w"> </span><span class="o">(</span>the<span class="w"> </span>main<span class="w"> </span>dictionary<span class="w"> </span><span class="k">for</span><span class="w"> </span>controlling<span class="w"> </span>the<span class="w"> </span>simulation<span class="o">)</span>
+<span class="w">   </span>├──<span class="w"> </span>decomposeParDict<span class="w"> </span><span class="o">(</span>dictionary<span class="w"> </span><span class="k">for</span><span class="w"> </span>partitioning<span class="w"> </span>up<span class="w"> </span>the<span class="w"> </span>space<span class="w"> </span>into<span class="w"> </span>smaller<span class="w"> </span>chunks<span class="o">)</span>
+<span class="w">   </span>├──<span class="w"> </span>fvSchemes
+<span class="w">   </span>├──<span class="w"> </span>fvSolution
+<span class="w">   </span>├──<span class="w"> </span>snappyHexMeshDict<span class="w"> </span><span class="o">(</span>the<span class="w"> </span>dictionary<span class="w"> </span><span class="k">for</span><span class="w"> </span>adding<span class="w"> </span>a<span class="w"> </span>mesh<span class="w"> </span><span class="k">for</span><span class="w"> </span>simulating<span class="w"> </span>surface<span class="w"> </span>interactions<span class="o">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The default setting is to run the application simpleFoam on 6 MPI-rank with background mesh block
+of size (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.</p></li>
+</ul>
+<p>The following tasks are suggested during the hands-on session.</p>
+<ul class="simple">
+<li><p>Try to change some parameters in the snappyHexMeshDict, can you see what happens?</p></li>
+<li><p>Try to figure out what each fucntion object does. Search for documentation in the user guide.
+If you are brave, look at the source code, that is the big plus of open-source!</p></li>
+<li><p>Think about what you typically look at in your CFD simulations. See if you can find a suitable function object.
+(Suggestions: inlet-outlet mass flow balance, y+ values, Co-number, velocity min/max, residuals, etc.)</p></li>
+</ul>
+<section id="run-the-case-by-default">
+<h2>Run the case by default<a class="headerlink" href="#run-the-case-by-default" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="nv">$FOAM_BASHRC</span>
+$<span class="w"> </span>./Allrun<span class="w"> </span><span class="c1"># run the workflow</span>
+</pre></div>
+</div>
+<p>The script <em>Allrun</em> is a script to collect all commands for whole workflow.
+You can use it, but it is not very pedagogical. Better to manually go through each command to remember what it does.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copy motorbike surface from resources directory</span>
+cp<span class="w"> </span><span class="nv">$FOAM_TUTORIALS</span>/resources/geometry/motorBike.obj.gz<span class="w"> </span>constant/triSurface/
+
+<span class="c1"># Restore the 0 directory</span>
+cp<span class="w"> </span>-r<span class="w"> </span><span class="m">0</span>.orig<span class="w"> </span><span class="m">0</span>
+
+<span class="c1"># Extracts and writes surface features to file</span>
+surfaceFeatureExtract
+
+<span class="c1"># Create a block mesh, which will be the background mesh for snappy</span>
+blockMesh
+
+<span class="c1"># Decompose a mesh for parallelization</span>
+decomposePar<span class="w"> </span>-copyZero
+
+<span class="c1"># Run the snappyHexMesh in parallel!</span>
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">6</span><span class="w"> </span>snappyHexMesh<span class="w"> </span>-parallel<span class="w"> </span>-overwrite<span class="w"> </span>&gt;<span class="w"> </span>log.snappyHexMesh
+
+<span class="c1"># Run a potential flow solver</span>
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">6</span><span class="w"> </span>potentialFoam<span class="w"> </span>-parallel<span class="w"> </span>-writephi<span class="w"> </span>&gt;<span class="w"> </span>log.potentialFoam
+
+<span class="c1"># Run the steady-state solver for incompressible flow</span>
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">6</span><span class="w"> </span>simpleFoam<span class="w"> </span>-parallel<span class="w"> </span>&gt;<span class="w"> </span>log.simpleFoam
+
+<span class="c1"># Reconstruct the mesh using geometric information</span>
+reconstructParMesh<span class="w"> </span>-constant
+
+<span class="c1"># Reconstruct fields of the parallel case</span>
+reconstructPar<span class="w"> </span>-latestTime
+</pre></div>
+</div>
+<p>Some stuff worth noting here:</p>
+<ul class="simple">
+<li><p>We want to generate the mesh in parallel and this introduces some extra shenanigans into the workflow.
+This is not really needed for this case, but can be good to know.</p></li>
+<li><p>We generate the background mesh with <em>blockMesh</em> and then decompose that into subdomains with <em>decomposePar</em>.
+Here, we have to provide the <em>-copyZero</em> flag, so that the <em>0</em> folder is simply copied to the <em>processor</em> directories
+without change. Otherwise, some stuff will be “optimized away”, for example entries for boundaries that are not found in the mesh.
+Since the background mesh generate by <em>blockMesh</em> does not contain the motorbike, this would completely ruin the <em>0</em> folder.</p></li>
+<li><p>We run <em>potentialFoam</em> to solve potential flow equations to get a better initial condition. Note a corresponding entry in <em>system/fvSolution</em>.</p></li>
+<li><p>After running the case we need to reconstruct not only the data but also the mesh, which was generated in parallel. For that, we use <em>reconstructParMesh</em>.
+The <em>-constant</em> flag makes it put the mesh directly into <em>constant/polyMesh</em>.</p></li>
+</ul>
+</section>
+<section id="validating-the-model">
+<h2>Validating the model<a class="headerlink" href="#validating-the-model" title="Link to this heading"></a></h2>
+<p>To make sure everything is OK we can the output logs from the OpenFOAM run,
+this will show if the run actually worked or not. For each stage there is a log.[stage]
+output. For example, in the <em>log.simpleFoam</em> file the coefficients should be likes</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>./log.simpleFoam
+...
+<span class="nv">Time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">500</span>
+...
+<span class="nv">ExecutionTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">279</span>.99<span class="w"> </span>s<span class="w"> </span><span class="nv">ClockTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">281</span><span class="w"> </span>s
+...
+Coefficients
+Cm<span class="w"> </span>:<span class="w"> </span><span class="m">0</span>.157483<span class="w"> </span><span class="o">(</span>pressure:<span class="w"> </span><span class="m">0</span>.149969<span class="w"> </span>viscous:<span class="w"> </span><span class="m">0</span>.00751474<span class="o">)</span>
+Cd<span class="w"> </span>:<span class="w"> </span><span class="m">0</span>.410867<span class="w"> </span><span class="o">(</span>pressure:<span class="w"> </span><span class="m">0</span>.393321<span class="w"> </span>viscous:<span class="w"> </span><span class="m">0</span>.0175461<span class="o">)</span>
+Cl<span class="w"> </span>:<span class="w"> </span><span class="m">0</span>.0751623<span class="w"> </span><span class="o">(</span>pressure:<span class="w"> </span><span class="m">0</span>.0758905<span class="w"> </span>viscous:<span class="w"> </span>-0.000728213<span class="o">)</span>
+Cl<span class="o">(</span>f<span class="o">)</span><span class="w"> </span>:<span class="w"> </span><span class="m">0</span>.195065
+Cl<span class="o">(</span>r<span class="o">)</span><span class="w"> </span>:<span class="w"> </span>-0.119902
+ensightWrite<span class="w"> </span>ensightWrite<span class="w"> </span>write:<span class="w"> </span><span class="o">(</span><span class="w"> </span>U<span class="w"> </span>p<span class="w"> </span>k<span class="w"> </span>omega<span class="w"> </span><span class="o">)</span>
+End
+Finalising<span class="w"> </span>parallel<span class="w"> </span>run
+</pre></div>
+</div>
+<p>Here you can see that function objects add new stuff to the log!</p>
+</section>
+<section id="parallelization">
+<h2>Parallelization<a class="headerlink" href="#parallelization" title="Link to this heading"></a></h2>
+<p>we can change the MPI rank and the decomposition method in file <em>system/decomposeParDict</em>, for example, change the default</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>numberOfSubdomains<span class="w"> </span><span class="m">6</span><span class="p">;</span>
+method<span class="w"> </span>hierarchical<span class="p">;</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>numberOfSubdomains<span class="w"> </span><span class="m">24</span><span class="p">;</span><span class="w"> </span>//<span class="w"> </span>MPI-rank
+method<span class="w"> </span>scotch<span class="p">;</span><span class="w">         </span>//<span class="w"> </span>using<span class="w"> </span>scotch<span class="w"> </span><span class="k">for</span><span class="w"> </span>partition
+</pre></div>
+</div>
+<p>(Note: If you still used <em>method hierarchical</em>, the <em>hierarchicalCoeffs</em> in the file
+should be coordinately changed)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hierarchicalCoeffs
+<span class="o">{</span>
+n<span class="w"> </span><span class="o">(</span><span class="m">4</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">2</span><span class="o">)</span><span class="p">;</span><span class="w"> </span>//<span class="w"> </span><span class="nv">4x3x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">24</span><span class="w"> </span>!!
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The script <em>Allclean</em> can be used to delete the log files and remove the results from
+motorBike run and then rerun again.</p>
+</section>
+<section id="mesh-refinement">
+<h2>Mesh refinement<a class="headerlink" href="#mesh-refinement" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>For scalability tests, the default mesh of 350 k cells may be small, (you can check the mesh information in <em>log.snappyHexMesh</em></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Layer<span class="w"> </span>mesh<span class="w"> </span>:<span class="w"> </span>cells:353548<span class="w">  </span>faces:1107696<span class="w">  </span>points:405989
+</pre></div>
+</div>
+<p>We need to increase the block mesh size and change the settings in file <em>system/blockMeshDict</em>, for example, from</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>blocks
+<span class="o">(</span>
+hex<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="m">20</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span>simpleGrading<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>blocks
+<span class="o">(</span>
+hex<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="m">40</span><span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">16</span><span class="o">)</span><span class="w"> </span>simpleGrading<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="o">)</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>i.e. the mesh size in x, y, and z-directory increases twice. The script <em>Allclean</em> can be used to delete the log files and remove the results from motorBike run and then rerun again.</p>
+<p>(Notice: Please do not refine the mesh too much. Otherwise execution time becomes very long)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./Allclean
+$<span class="w"> </span>./Allrun
+</pre></div>
+</div>
+<p>The total number of cells is around 1.8 M (check it the log.snappyHexMesh)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Layer<span class="w"> </span>mesh<span class="w"> </span>:<span class="w"> </span>cells:1892612<span class="w">  </span>faces:5875533<span class="w">  </span>points:2112502
+</pre></div>
+</div>
+</section>
+<section id="snappyhexmesh">
+<h2>snappyHexMesh<a class="headerlink" href="#snappyhexmesh" title="Link to this heading"></a></h2>
+<p>The mesher performs three steps to create the mesh from the background mesh and the stl surface of the motorbike.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>less<span class="w"> </span>system/snappyHexMeshDict
+
+//<span class="w"> </span>Which<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>steps<span class="w"> </span>to<span class="w"> </span>run
+castellatedMesh<span class="w"> </span>true<span class="p">;</span>
+snap<span class="w">            </span>true<span class="p">;</span>
+addLayers<span class="w">       </span>true<span class="p">;</span>
+</pre></div>
+</div>
+<p>Try running snappyHexMesh without the <em>-overwrite</em> flag and take a look at the three produced meshes in the consecutive
+time directories written.
+Can you see the difference from step to step?
+Note that <em>addLayers</em> can be removed, and the produced mesh will still conform to the geometry.</p>
+<p>There are many settings in can be modified to refine and improve the mesh quality. For example,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>less<span class="w"> </span>system/snappyHexMeshDict
+...
+
+//<span class="w"> </span>Geometry<span class="w"> </span>refinement<span class="w"> </span><span class="k">for</span><span class="w"> </span>wak<span class="w"> </span>region
+geometry
+<span class="o">{</span>
+<span class="w">   </span>refinementBox
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span><span class="nb">type</span><span class="w"> </span>box<span class="p">;</span>
+<span class="w">       </span>min<span class="w">  </span><span class="o">(</span>-1.0<span class="w"> </span>-0.7<span class="w"> </span><span class="m">0</span>.0<span class="o">)</span><span class="p">;</span>
+<span class="w">       </span>max<span class="w">  </span><span class="o">(</span><span class="w"> </span><span class="m">8</span>.0<span class="w">  </span><span class="m">0</span>.7<span class="w"> </span><span class="m">2</span>.5<span class="o">)</span><span class="p">;</span>
+<span class="w">   </span><span class="o">}</span>
+<span class="o">}</span>
+
+...
+
+<span class="w">  </span>//<span class="w"> </span>Region<span class="w"> </span>refinement<span class="w"> </span>used<span class="w"> </span><span class="k">in</span><span class="w"> </span>Castellated<span class="w"> </span>mesh<span class="w"> </span>generation.
+<span class="w">  </span>refinementRegions
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span>refinementBox
+<span class="w">       </span><span class="o">{</span>
+<span class="w">           </span>mode<span class="w"> </span>inside<span class="p">;</span>
+<span class="w">           </span>levels<span class="w"> </span><span class="o">((</span>1E15<span class="w"> </span><span class="m">4</span><span class="o">))</span><span class="p">;</span>
+<span class="w">       </span><span class="o">}</span>
+<span class="w">   </span><span class="o">}</span>
+
+<span class="w"> </span>...
+</pre></div>
+</div>
+<p>refines the mesh in a predifined box. Try changing the parameters of the box and look at the effect.
+You also try creating a new geometric primitve and refining it. As usual, to see what is there set <em>type</em> to <em>banana</em>,
+let the mesher crash and write out available valid options.</p>
+<section id="function-objects">
+<h3>Function objects<a class="headerlink" href="#function-objects" title="Link to this heading"></a></h3>
+<p>The motorbike case contains several function objects distributed among respective files in <em>system</em>.
+Take a look at them, try to understand what they do. Consult the User guide on openfoam.com.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+$<span class="w"> </span>less<span class="w"> </span>system/controlDict
+
+functions
+<span class="o">{</span>
+<span class="w">   </span><span class="c1">#include &quot;streamLines&quot;</span>
+<span class="w">   </span><span class="c1">#include &quot;wallBoundedStreamLines&quot;</span>
+<span class="w">   </span><span class="c1">#include &quot;cuttingPlane&quot;</span>
+<span class="w">   </span><span class="c1">#include &quot;forceCoeffs&quot;</span>
+<span class="w">   </span><span class="c1">#include &quot;ensightWrite&quot;</span>
+<span class="o">}</span>
+
+$<span class="w"> </span>ls<span class="w"> </span>system
+blockMeshDict<span class="w">     </span>decomposeParDict.6<span class="w">  </span>fvSolution<span class="w">         </span>surfaceFeatureExtractDict
+controlDict<span class="w">       </span>ensightWrite<span class="w">        </span>meshQualityDict<span class="w">    </span>wallBoundedStreamLines
+cuttingPlane<span class="w">      </span>forceCoeffs<span class="w">         </span>snappyHexMeshDict
+decomposeParDict<span class="w">  </span>fvSchemes<span class="w">           </span>streamLines
+</pre></div>
+</div>
+<p>Inspect the output form each of the objects. Open the streamlines in Paraview.
+The Ensight output can also be opened in paraview directly, as well as the cut-plane.
+For the forces, check out the .dat file in <em>postProcessing</em>.</p>
+<p>Now, think of what else would be good to add to the simulation.
+For example, writing down the residuals to a file.
+Can you find a corresponding function object in the User guide?
+Try to add it to the case!</p>
+</section>
+</section>
+<section id="numerical-schemes-and-solvers">
+<h2>Numerical schemes and solvers<a class="headerlink" href="#numerical-schemes-and-solvers" title="Link to this heading"></a></h2>
+<p>The numerical schemes are setting in the <em>system/fvSchemes</em>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+ddtSchemes<span class="w">  </span>//<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span>derivatives<span class="w"> </span>term
+
+gradSchemes<span class="w"> </span>//<span class="w"> </span><span class="k">for</span><span class="w"> </span>divergence/convection<span class="w"> </span>term
+
+divSchemes<span class="w">  </span>//<span class="w"> </span><span class="k">for</span><span class="w"> </span>gradient<span class="w"> </span>term
+
+laplacianSchemes<span class="w"> </span>//<span class="w"> </span><span class="k">for</span><span class="w"> </span>Laplacian<span class="w"> </span>term
+<span class="w"> </span>...
+</pre></div>
+</div>
+<p>The solvers are selected in the <em>system/fvSolution</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+<span class="w">    </span>p<span class="w">  </span>//<span class="w"> </span>GAMG<span class="w"> </span>is<span class="w"> </span>recommended<span class="w"> </span><span class="k">for</span><span class="w"> </span>pressure
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span>solver<span class="w">          </span>GAMG<span class="p">;</span>
+<span class="w">       </span>smoother<span class="w">        </span>GaussSeidel<span class="p">;</span>
+<span class="w">   </span>...
+<span class="w">   </span>U<span class="w">  </span>//<span class="w"> </span><span class="k">for</span><span class="w"> </span>velocities
+<span class="w">   </span><span class="o">{</span>
+<span class="w">       </span>solver<span class="w">          </span>smoothSolver<span class="p">;</span>
+<span class="w">       </span>smoother<span class="w">        </span>GaussSeidel<span class="p">;</span>
+...
+</pre></div>
+</div>
+<p>More details about the OpenFOAM schemes and solvers can be found at <a class="reference external" href="https://www.openfoam.com/documentation/guides/latest/doc/index.html">OpenFOAM: User Guide</a>
+Feel free to horse around with the settings even if it kills the solver.
+Use the banana trick to see what solvers are available e.g. for pressure and try to change to a different solver?
+Is the case running faster or slower? You can always look at the execution time in the log file.</p>
+</section>
+<section id="post-processing">
+<h2>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading"></a></h2>
+<p>As already mentioned multiple times, Paraview can be used to inspect the case: mesh, flow variable, function object output.
+The motorbike case is great for a fancy visualization, so if you have the time and desire, try to produce something interesting!
+It is easiest to work with Paraview on your own machine, but you can also use Tegner.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>add<span class="w"> </span>paraview
+$<span class="w"> </span>paraFoam
+</pre></div>
+</div>
+<img alt="../_images/motorbike_result.png" src="../_images/motorbike_result.png" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ENCCS and individual contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

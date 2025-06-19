@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Numerics &mdash; OpenFOAM  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=0c089442" />
+      <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../_static/overrides.css?v=0572569b" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/minipres.js?v=a0d29692"></script>
+        <script src="../_static/tabs.js?v=3030b3cb"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script data-domain="enccs.github.io/openfoam" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Mesh" href="../mesh/" />
+    <link rel="prev" title="Workflow" href="../workflow/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            OpenFOAM
+              <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/">OpenFOAM Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/">Workflow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Numerics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#numerical-schemes">Numerical schemes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interpolation-schemes">Interpolation schemes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#temporal-schemes">Temporal schemes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-schemes">Spatial schemes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gradient">Gradient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#divergence">Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#laplacian">Laplacian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sngrad">SnGrad</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh/">Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../handson/">Case Study</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">OpenFOAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Numerics</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/OpenFOAM/blob/main/content/numerics.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="numerics">
+<span id="id1"></span><h1>Numerics<a class="headerlink" href="#numerics" title="Link to this heading"></a></h1>
+<div class="admonition-questions questions admonition" id="questions-0">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>What is</p></li>
+<li><p>What problem do</p></li>
+</ul>
+</div>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Explain</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>15 min teaching</p></li>
+<li><p>0 min exercises</p></li>
+</ul>
+</div>
+<section id="numerical-schemes">
+<h2>Numerical schemes<a class="headerlink" href="#numerical-schemes" title="Link to this heading"></a></h2>
+<p>OpenFOAM includes a wide range of solution and scheme controls, specified via dictionary files in the case <strong>system</strong> sub-directory. These are described by:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Numerical schemes: Transforming partial differential equations to a linear system of equations using the Finite Volume Method. The treatment of each term in the system of equations is specified in the <code class="docutils literal notranslate"><span class="pre">fvSchemes</span></code> dictionary. This enables fine-grain control of e.g. temporal, gradient, divergence and interpolation schemes. Additional run-time selectable physical modelling and general finite terms are prescribed in the <code class="docutils literal notranslate"><span class="pre">fvOptions</span></code> dictionary, targeting e.g. acoustics, heat transfer, momentum sources, multi-region coupling, linearised sources/sinks and many more</p></li>
+<li><p>Solution methods: Case solution parameters are specified in the <code class="docutils literal notranslate"><span class="pre">fvSolution</span></code> dictionary. These include choice of linear equation solver per field variable, algorithm controls e.g. number of inner and outer iterations and under-relaxation.</p></li>
+</ul>
+</div></blockquote>
+<p>OpenFOAM applications are designed for use with unstructured meshes, offering up
+to second order accuracy, predominantly using collocated variable arrangements.
+Most focus on the Finite Volume Method, for which the conservative form
+of the general scalar transport equation for the transported quantity  <span class="math notranslate nohighlight">\(\phi\)</span>  takes the
+form:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial \rho \phi }{\partial t} +  \nabla \cdot \left(\rho \phi \mathbf{u} \right) =  \nabla \cdot \left(\Gamma_\phi  \nabla \phi \right) + S_\phi\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By setting different values for <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(\Gamma_\phi\)</span> and <span class="math notranslate nohighlight">\(S_\phi\)</span>, one can obtain Navier-Stokes equations.
+For example, letting <span class="math notranslate nohighlight">\(\phi = 1\)</span>, <span class="math notranslate nohighlight">\(\Gamma_\phi = 0\)</span>, <span class="math notranslate nohighlight">\(S_\phi = 0\)</span>, we will end up with the continuity equation</p>
+</div>
+<p>The Finite Volume Method requires the integration over a 3-D <strong>control volume</strong>,
+such that:</p>
+<div class="math notranslate nohighlight">
+\[\int_V \frac{\partial \rho \phi }{\partial t}  \mathrm{d} V
++ \int_V \nabla \cdot \left(\rho \phi \mathbf{u} \right) \mathrm{d} V
+= \int_V \nabla \cdot \left(\Gamma_\phi \nabla \phi \right) \mathrm{d} V
++ \int_V S_\phi \mathrm{d} V\]</div>
+<p>Next step is to transform the volume integral to surface integral by using Gauss -Ostrogradsky Thereom.</p>
+<div class="math notranslate nohighlight">
+\[\int_V \frac{\partial \rho \phi }{\partial t}  \mathrm{d} V
++ \oint_S \left(\rho \phi \mathbf{u \cdot n} \right) \mathrm{d} S
+= \oint_S \left( \Gamma_\phi \nabla \phi \cdot \mathbf{n}\right)  \mathrm{d} S
++ \int_V S_\phi \mathrm{d} V\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\int_V \frac{\partial \rho \phi }{\partial t}  \mathrm{d} V
++ \sum_{F} \int_F \left(\rho \phi \mathbf{u \cdot n} \right) \mathrm{d} S
+= \sum_{F} \int_F \left(\Gamma_\phi \nabla \phi \cdot \mathbf{n}\right)  \mathrm{d} S
++ \int_V S_\phi \mathrm{d} V\]</div>
+<p>Up to this point, the integral form is valid for an arbitrary volume, and for each volume, the integral equations are valid.
+One problem left is to interpolating the cell centred values (known quantities) to the face centres, and this interpolation is one of the source of errors.</p>
+<div class="admonition-the-gauss-ostrogradsky-thereom callout admonition" id="callout-0">
+<p class="admonition-title">The Gauss-Ostrogradsky Thereom</p>
+<p>Suppose <span class="math notranslate nohighlight">\(V\)</span> is a volume in three-dimensional space, which is compact and has a piecewise smooth boundary <span class="math notranslate nohighlight">\(S\)</span>. If <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> is a continuously differentiable vector field defined on a neighborhood of <span class="math notranslate nohighlight">\(V\)</span>. The closed boundary <span class="math notranslate nohighlight">\(S\)</span> is oriented by outward-pointing normals, and <span class="math notranslate nohighlight">\(\mathbf{n}\)</span> is the outward pointing unit normal at each point on the boundary.</p>
+<div class="math notranslate nohighlight">
+\[\iiint_V (\nabla \cdot \mathbf{F}) \mathrm{d} V = \oint_S (\mathbf{F} \cdot  \mathbf{n}) \mathrm{d} S\]</div>
+<p>The Gauss-Ostrogradsky Theorem, also known as the Divergence Theorem, simply states that the outward flux of a vector field through a closed surface is equal to the volume integral of the divergence over the region inside the surface.</p>
+</div>
+<p>Introducing the interpolation, we obtain</p>
+<div class="math notranslate nohighlight">
+\[\int_V \frac{\partial \rho \phi }{\partial t}  \mathrm{d} V
++ \sum_{F}  \left(\rho \phi \mathbf{u \cdot n} \right)_f  S_f
+= \sum_{F}  \left(\Gamma_\phi \nabla \phi \cdot \mathbf{n}\right)_f  S_f
++ \int_V S_\phi \mathrm{d} V\]</div>
+<p>During the spliting of the volume integrals across the volume faces/surfaces, note that</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The control volume is assumed to be a convex polyhedron, i.e. can be of any shape, only if it is convex and the faces made up the volume are planar</p></li>
+<li><p>All values of all variables are computed and saved on the controid of the control volume, i.e. cell centred collocated arrangement</p></li>
+<li><p>The value at each face centroid is approximated given the values at the centroids of the two cells sharing the face</p></li>
+<li><p>To transform the quantity from the cell centre to the face centre, an interpolation scheme is required</p></li>
+</ul>
+</div></blockquote>
+<div class="math notranslate nohighlight">
+\[\int_V \frac{\partial \rho \phi }{\partial t}  \mathrm{d} V
++ \sum_{F} \left(\rho_f \phi_f \mathbf{u}_f \cdot \mathbf{n}_f \right) S_f
+= \sum_{F} ({\Gamma_\phi}_f  \nabla \phi_f \cdot \mathbf{n}_f)    S_f
++ \int_V S_\phi \mathrm{d} V\]</div>
+</section>
+<section id="interpolation-schemes">
+<h2>Interpolation schemes<a class="headerlink" href="#interpolation-schemes" title="Link to this heading"></a></h2>
+<p>Interpolation schemes are specified in the <code class="docutils literal notranslate"><span class="pre">fvSchemes</span></code> file under the interpolationSchemes sub-dictionary using the syntax:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">InterpolationSchemes</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">interpolationSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">equation</span><span class="w"> </span><span class="n">term</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">interpolation</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>A wide variety of interpolation schemes are available, ranging from those that are based solely on geometry, and others, e.g. convection schemes that are functions of the local flow:</p>
+<blockquote>
+<div><ul>
+<li><p>Linear scheme: The most obvious option is linear interpolation, 2nd order accurate.  However, for convective fluxes it introduces oscillations</p></li>
+<li><p>Convection scheme: Many options for interpolating the  convective flux exist. Often it is the most important numerical choice in the simulation. Many of the convection schemes available in OpenFOAM are based on the TVD and NVD:</p>
+<blockquote>
+<div><ul>
+<li><p>NVD/TVD convection schemes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Limited</span> <span class="n">linear</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Linear</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Linear</span><span class="o">-</span><span class="n">upwind</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">MUSCL</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Mid</span><span class="o">-</span><span class="n">point</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Minmod</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">QUICK</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">UMIST</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Upwind</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Van</span> <span class="n">Leer</span> <span class="n">divergence</span> <span class="n">scheme</span>
+</pre></div>
+</div>
+</li>
+<li><p>Non-NVD/TVD convection schemes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Courant</span> <span class="n">number</span> <span class="n">blended</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">DES</span> <span class="n">hybrid</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">Filtered</span> <span class="n">Linear</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">divergence</span> <span class="n">scheme</span>
+<span class="o">-</span> <span class="n">LUST</span> <span class="n">divergence</span> <span class="n">scheme</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="temporal-schemes">
+<h2>Temporal schemes<a class="headerlink" href="#temporal-schemes" title="Link to this heading"></a></h2>
+<p>Now it is the time to choose a time integration scheme. Temporal schemes define how a field is integrated as a function of time. OpenFOAM includes a variety of schemes to integrate fields with respect to time. Time scheme properties are input in the <code class="docutils literal notranslate"><span class="pre">fvSchemes</span></code> file under the <code class="docutils literal notranslate"><span class="pre">ddtSchemes</span></code> sub-dictionary using the syntax:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Time scheme properties</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">ddtSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ddt</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="w">          </span><span class="o">&lt;</span><span class="n">time</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>Available <strong>&lt;time scheme&gt;</strong> include</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Backward time scheme</p></li>
+<li><p>Crank-Nicolson time scheme</p></li>
+<li><p>Euler implicit time scheme</p></li>
+<li><p>Local Euler implicit/explicit time scheme</p></li>
+<li><p>Steady state time scheme</p></li>
+</ul>
+</div></blockquote>
+<p>When choosing temporal scheme, here are a few things to consider:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Explicit or implicit: the latter means we have to solve a linear system at each time-step.</p></li>
+<li><p>Order of accuracy</p></li>
+<li><p>Numerical stability, and its implications for the time-step</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="spatial-schemes">
+<h2>Spatial schemes<a class="headerlink" href="#spatial-schemes" title="Link to this heading"></a></h2>
+<p>At their core, spatial schemes rely heavily on interpolation schemes to transform cell-based quantities to cell faces, in combination with Gauss Theorem to convert volume integrals to surface integrals.</p>
+<section id="gradient">
+<h3>Gradient<a class="headerlink" href="#gradient" title="Link to this heading"></a></h3>
+<p>Gradient schemes are specified in the fvSchemes file under the gradSchemes sub-dictionary using the syntax:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">gradSchemes</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">gradSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="n">grad</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w">         </span><span class="o">&lt;</span><span class="n">optional</span><span class="w"> </span><span class="n">limiter</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">gradient</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">interpolation</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>Gradient schemes</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Gauss gradient scheme</p></li>
+<li><p>Least-squares gradient scheme</p></li>
+</ul>
+</div></blockquote>
+<p>Interpolation schemes</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>linear: cell-based linear</p></li>
+<li><p>pointLinear: point-based linear</p></li>
+<li><p>leastSquares: Least squares</p></li>
+</ul>
+</div></blockquote>
+<p>Gradient limiters</p>
+<p>The limited gradient schemes attempt to preserve the monotonicity condition by limiting the gradient to ensure that the extrapolated face value is bounded by the neighbouring cell values.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Cell-limited gradient scheme</p></li>
+<li><p>Face-limited gradient scheme</p></li>
+<li><p>Multi-directional cell-limited gradient scheme</p></li>
+<li><p>Multi-directional face-limited gradient scheme</p></li>
+<li><p>clippedLinear: limits linear scheme according to a hypothetical cell size ratio</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="divergence">
+<h3>Divergence<a class="headerlink" href="#divergence" title="Link to this heading"></a></h3>
+<p>Divergence schemes are specified in the fvSchemes file under the divSchemes sub-dictionary using the general syntax:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">Time scheme properties</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">divSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="n">div</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="w">          </span><span class="n">Gauss</span><span class="w"> </span><span class="o">&lt;</span><span class="n">interpolation</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>A typical use is for convection schemes, which transport a property under the influence of a velocity field specified using:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-4-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-4-4-0" name="4-0" role="tab" tabindex="0">divSchemes</button></div><div aria-labelledby="tab-4-4-0" class="sphinx-tabs-panel" id="panel-4-4-0" name="4-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">divSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="n">div</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span><span class="n">Q</span><span class="p">)</span><span class="w">      </span><span class="n">Gauss</span><span class="w"> </span><span class="o">&lt;</span><span class="n">interpolation</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>The phi keyword is typically used to represent the flux (flow) across cell faces, i.e.
+<a class="reference external" href="https://doc.openfoam.com/2312/tools/processing/numerics/schemes/divergence/">https://doc.openfoam.com/2312/tools/processing/numerics/schemes/divergence/</a>
+- volumetric flux:
+- mass flux:</p>
+<p>NVD/TVD convection schemes</p>
+<p>Many of the convection schemes available in OpenFOAM are based on the TVD and NVD [PROVIDE REF] For further information, see the page invalid item schemes-divergence-nvdtvd</p>
+<blockquote>
+<div><p>Limited linear divergence scheme
+Linear divergence scheme
+Linear-upwind divergence scheme
+MUSCL divergence scheme
+Mid-point divergence scheme
+Minmod divergence scheme
+QUICK divergence scheme
+UMIST divergence scheme
+Upwind divergence scheme
+Van Leer divergence scheme</p>
+</div></blockquote>
+<p>Non-NVD/TVD convection schemes</p>
+<blockquote>
+<div><p>Courant number blended divergence scheme
+DES hybrid divergence scheme
+Filtered Linear (2) divergence scheme
+LUST divergence scheme</p>
+</div></blockquote>
+</section>
+<section id="laplacian">
+<h3>Laplacian<a class="headerlink" href="#laplacian" title="Link to this heading"></a></h3>
+<p>Laplacian schemes are specified in the fvSchemes file under the laplacianSchemes sub-dictionary using the syntax:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-5-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-5-5-0" name="5-0" role="tab" tabindex="0">laplacianSchemes</button></div><div aria-labelledby="tab-5-5-0" class="sphinx-tabs-panel" id="panel-5-5-0" name="5-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">laplacianSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="n">laplacian</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="n">Gauss</span><span class="w"> </span><span class="o">&lt;</span><span class="n">interpolation</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">snGrad</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>All options are based on the application of Gauss theorem, requiring an interpolation scheme to transform coefficients from cell values to the faces, and a surface-normal gradient scheme.</p>
+</section>
+<section id="sngrad">
+<h3>SnGrad<a class="headerlink" href="#sngrad" title="Link to this heading"></a></h3>
+<p>Surface-normal gradient schemes are specified in the fvSchemesfile under the snGradSchemes sub-dictionary using the syntax:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-6-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-6-6-0" name="6-0" role="tab" tabindex="0">snGradSchemes</button></div><div aria-labelledby="tab-6-6-0" class="sphinx-tabs-panel" id="panel-6-6-0" name="6-0" role="tabpanel" tabindex="0"><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">snGradSchemes</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">default</span><span class="w">         </span><span class="n">none</span><span class="p">;</span>
+<span class="w">    </span><span class="n">snGrad</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="w">       </span><span class="o">&lt;</span><span class="n">snGrad</span><span class="w"> </span><span class="n">scheme</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></div>
+<p>Options</p>
+<blockquote>
+<div><p>Corrected surface-normal gradient scheme
+Face-corrected surface-normal gradient scheme
+Limited surface-normal gradient scheme
+Orthogonal surface-normal gradient scheme
+Uncorrected surface-normal gradient scheme</p>
+</div></blockquote>
+<p>Pressure-velocity coupling</p>
+<blockquote>
+<div><p>Introduction: Pressure-velocity algorithms
+Steady state: SIMPLE
+Transient: PISO
+Transient: PIMPLE</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../workflow/" class="btn btn-neutral float-left" title="Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../mesh/" class="btn btn-neutral float-right" title="Mesh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, ENCCS and individual contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
