@@ -69,7 +69,8 @@ Once compiled, a large number of executables is generated, which fall into two c
 
 This is the case for the ESI version of OpenFOAM and used to be for OpenFOAM foundation until version 10. 
 From OpenFOAM 11 onwards, a radical shift of paradigm has taken place: so-called `modular <https://cfd.direct/openfoam/free-software/modular-solvers/>`__
-solvers have been introduced
+solvers have been introduced. This approach consists in each solver being a *class* (in the OOP sense) and having one single executable `foamRun` which
+launches the solver. This makes it easier to include multiphysics in the solution strategy, as well as adding additional equations to be solved.
 
 OpenFOAM vs commercial software
 -------------------------------
