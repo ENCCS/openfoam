@@ -120,36 +120,59 @@ A few examples of the dictionaries are shown below:
         }
         // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-        application     foamRun;
+        // This can be either foamRun for a single mesh region or foamMultiRun for 
+        // multi-region meshes
+        application     foamRun; 
 
+        // This describes the physics we want to include: incompressible, 
+        // compressible, shocks, two-phase/multiphase, solid...
         solver          incompressibleFluid;
 
+        // Where do we start from when running the application: the start time 
+        // specified below, or the latestTime where we stopped...
         startFrom       startTime;
 
+        // Initial physical time
         startTime       0;
 
+        // When to stop: endTime specified below, writeNow (finish current timestep, 
+        // write data and quit), noWriteNow (same without saving), ecc.
         stopAt          endTime;
 
+        // End time for the simulation is stopAt is endTime
         endTime         10;
 
+        // Timestep size of the simulation; in case of adaptive timestep, this indicates
+        // the initial (and maximum) timestep
         deltaT          0.005;
 
+        // Trigger for saving data: timestep, physical time, CPU time, wall clock...
         writeControl    timeStep;
 
+        // Scalar related to the control above, e.g. 100 timesteps in this case
         writeInterval   100;
 
+        // How many time directories we want to store? 0 to keep all of them
         purgeWrite      0;
 
+        // Saving data in ascii (manually inspectable) or binary format
         writeFormat     ascii;
 
+        // Precision at which we're saving
         writePrecision  6;
 
+        // Do we want to gzip-compress the files we save?
         writeCompression off;
 
+        // Naming convention of the time directory: fixed (AA.BBBB), scientific (A.BBBeXX)
+        // or general to automatically switch between the two
         timeFormat      general;
 
+        // Number of "B"s above
         timePrecision   6;
 
+        // If this is true, OpenFOAM will read this file at each timestep to check for
+        // changes
         runTimeModifiable true;
 
         // ************************************************************************* //
