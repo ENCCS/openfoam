@@ -36,6 +36,15 @@ who would like to get started with OpenFOAM using a HPC resource.
 Basic knowledge of using Linux will be required. 
 Participants are expected to know basic numerical analysis and have CFD theoretical background.
 
+About the course
+----------------
+
+This workshop will provide an introduction to OpenFOAM, its different versions and how it differs from commercial CFD solvers.
+This will be followed by an overview of the OpenFOAM case structure, meshing tools, run in serial and parallel of some example cases
+and an introduction to postprocessing in Paraview. Emphasis will be placed on numerics considerations and solution schemes available
+in OpenFOAM. 
+The workshop will assume OpenFOAM foundation version, at least 11.
+
 Schedule
 --------
 
@@ -83,9 +92,6 @@ Schedule
    * - 13:00 - 15:00
      - Hands-on session
 
-
-About the course
-----------------
 
 
 See also
