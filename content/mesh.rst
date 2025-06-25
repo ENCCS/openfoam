@@ -1,16 +1,24 @@
 .. _mesh:
 
-Mesh
-====
+Meshing
+=======
 
 .. questions::
 
    - What is a mesher?
+   - What are the choices we have for native OpenFOAM meshing?
+   - How do we visualise the generated mesh(es)?
+   - Can we import meshes from other CFD packages into OpenFOAM?
+   - What are the tools we can use to evaluate mesh metrics and quality?
+   
 
 .. objectives::
 
    - Understand the basics of blockMesh and snappyHexMesh
    - Know how to use blockMesh and snappyHexMesh
+   - Learn to inspect a mesh in Paraview
+   - Learn to use checkMesh to summarise statistics and metrics of mesh quality
+  
 
 .. instructor-note::
 
@@ -22,18 +30,21 @@ Mesh
 Mesh generation
 ---------------
 
-There are a couple of mesher available:
+A few meshers that generate OF-native meshes are available:
 
 - blockMesh – Block-structured hexahedral mesher
 - snappyHexMesh – Unstructured hexa-dominated mesher
-- cfMesh – Unstructured mesher with different available meshing strategies
-- makeFaMesh - Create finite-area meshes from volume-mesh patches
-- Other commercial mesh generation
+- cfMesh – Unstructured mesher with different available meshing strategies. Works on recent OF versions with some tweeking
+- Pointwise - commercial (and paid), has native OF export capabilities 
+
+Moreover, a plethora of conversion tools exist to import meshes from both free and commercial meshers, as outlined :ref:`here<Mesh conversion>`.
+
+
 
 blockMesh
 +++++++++
 
-blockMesh is a structured hexahedral mesh generator:
+blockMesh is a structured hexahedral mesh generator, meaning that it can generate several blocks with a structured topology:
 
 - Key features:
 
@@ -48,57 +59,137 @@ blockMesh is a structured hexahedral mesh generator:
    - ordering of points is important
 
 
-It is well suited to simple geometries that can be described by a few blocks, but challenging to apply to cases with a large number of blocks due to book-keeping requirements, i.e. the need to manage point connectivity and ordering.
+It is well suited to simple geometries that can be described by a few blocks, but challenging to apply to cases with a large number of blocks due to book-keeping requirements, i.e. 
+the need to manage point connectivity and ordering.
 
 The utility is controlled using a ``blockMeshDict`` dictionary, located in the case **system** directory. 
-It manually define everything: vertices, blocks, curved edges, boundaries and is split into the following sections:
+The user has to manually define all topological entities (points, edges, blocks, etc.) and is split into the following sections:
 
    - points
    - edges
    - blocks
    - patches
 
-An example of the ``blockMeshDict`` dictionary is provided below:
+An example of ``blockMeshDict`` dictionary for a 2D cavity is provided below:
+
+.. code-block:: cpp
+
+   /*--------------------------------*- C++ -*----------------------------------*\
+    =========                 |
+    \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+    \\    /   O peration     | Website:  https://openfoam.org
+        \\  /    A nd           | Version:  12
+        \\/     M anipulation  |
+    \*---------------------------------------------------------------------------*/
+    FoamFile
+    {
+        format      ascii;
+        class       dictionary;
+        object      blockMeshDict;
+    }
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+    convertToMeters 0.1;
+
+    vertices
+    (
+        (0 0 0)
+        (1 0 0)
+        (1 1 0)
+        (0 1 0)
+        (0 0 0.1)
+        (1 0 0.1)
+        (1 1 0.1)
+        (0 1 0.1)
+    );
+
+    blocks
+    (
+        hex (0 1 2 3 4 5 6 7) (20 20 1) simpleGrading (1 1 1)
+    );
+
+    boundary
+    (
+        movingWall
+        {
+            type wall;
+            faces
+            (
+                (3 7 6 2)
+            );
+        }
+        fixedWalls
+        {
+            type wall;
+            faces
+            (
+                (0 4 7 3)
+                (2 6 5 1)
+                (1 5 4 0)
+            );
+        }
+        frontAndBack
+        {
+            type empty;
+            faces
+            (
+                (0 3 2 1)
+                (4 5 6 7)
+            );
+        }
+    );
 
 
-Boundary types are listed here:
+    // ************************************************************************* //
 
- - "patch": generic type used for most boundary boundaries
- - "wall": for walls
- - "empty": for a 2D case, defining the side boundaries parallel to the 2D plane in which the solution is obtained
- - "cyclic", "cyclicAMI": for periodic boundary conditions. Come in pairs
- - "symmetry": symmetry boundary
 
-Boundary types vs boundary conditions:
+
+The types a boundary can have are listed here:
+
+ - `patch`: generic type used for most boundary boundaries;
+ - `wall`: for walls;
+ - `empty`: for a 2D case, defining the side boundaries parallel to the 2D plane
+   in which the solution is obtained;
+ - `cyclic`, "cyclicAMI": for periodic boundary conditions. Come in pairs;
+ - `symmetry`: symmetry boundary;
+
+ A distinction has to be made between boundary types and boundary conditions:
 
  - Boundary conditions for fields are set in the **0** folder!
  - But some boundary types essentially define the condition, e.g. cyclic.
- - In this case, the conditions in the **0** folder must match the boundary type, e.g. cyclic boundary condition for the cyclic boundary type. Same with "empty"
+ - In this case, the conditions in the **0** folder must match the boundary type, 
+   e.g. cyclic boundary condition for the cyclic boundary type. Same with "empty"
 
 
 snappyHexMesh
 +++++++++++++
 
-snappyHexMesh is a fully parallel, split hex, mesh generator that guarantees a minimum mesh quality. Controlled using OpenFOAM dictionaries, it is particularly well suited to batch driven operation.
+snappyHexMesh is a fully parallel, split hex mesh generator that guarantees a
+minimum (user-defined) mesh quality. Controlled using OpenFOAM dictionaries, it
+is particularly well suited to batch driven operation.
 
-Some of the key features are listed here::
+Some of the key features are listed here:
 
-   - starts from any pure hex mesh (structured or unstructured)
-   - reads geometry in triangulated formats, e.g. in stl, obj, vtk
-   - no limit on the number of input surfaces
-   - can use simple analytically-defined geometry, e.g. box, sphere, cone
-   - generates prismatic layers
-   - scales well when meshing in parallel
-   - can work with dirty surfaces, i.e. non-watertight surfaces
+- starts from any pure hex mesh (structured or unstructured), e.g. as generated
+  by ``blockMesh``
+- reads geometry in triangulated formats, e.g. in stl, obj, vtk
+- no limit on the number of input surfaces
+- can use simple analytically-defined geometry, e.g. box, sphere, cone
+- generates prismatic layers
+- scales well when meshing in parallel
+- can work with dirty surfaces, i.e. non-watertight surfaces
 
-Meshing controls are set in the ``snappyHexMeshDict`` located in the case **system** directory, which contains the following sections:
+Meshing controls are set in the ``snappyHexMeshDict`` located in the case
+**system** directory, which contains the following sections:
 
-    - Geometry: specification of the input surfaces
-    - Castellation: starting from any pure hex mesh, refine and optionally load balance when running in parallel. The refinement is specified both according to surfaces, volumes and gaps
-    - Snapping: guaranteed mesh quality whilst morphing to geometric surfaces and features
-    - Layers: prismatic layers are inserted by shrinking an existing mesh and creating an infill, subject to the same mesh quality constraints
-    - Mesh quality: mesh quality settings enforced during the snapping and layer addition phases
-    - Global setting
+- Geometry: specification of the input surfaces
+- Castellation: starting from any pure hex mesh, refine and optionally load balance when 
+  running in parallel. The refinement is specified both according to surfaces, volumes and gaps
+- Snapping: guaranteed mesh quality whilst morphing to geometric surfaces and features
+- Layers: prismatic layers are inserted by shrinking an existing mesh and creating an infill, 
+  subject to the same mesh quality constraints
+- Mesh quality: mesh quality settings enforced during the snapping and layer addition phases
+- Global setting
 
 The overall meshing process is summarised by the figure below:
 
@@ -135,7 +226,7 @@ The following tools are useful when manipulating the mesh, e.g. scaling the geom
    - surfaceTransformPoints
    - topoSet
 
-
+.. _Mesh conversion:
 Mesh conversion
 ---------------
 
