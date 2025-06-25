@@ -179,6 +179,19 @@ Some of the key features are listed here:
 - scales well when meshing in parallel
 - can work with dirty surfaces, i.e. non-watertight surfaces
 
+
+The overall meshing process is summarised by the figure below:
+
+.. figure:: img/snappyHexMesh-overview-small.png
+   :align: center
+
+   Figure source: OpenFOAM documentation `Meshing process <https://doc.openfoam.com/2312/tools/pre-processing/mesh/generation/snappyhexmesh/#meshing-process/>`__.
+
+The process starts with a "background" mesh (usually generated with ``blockMesh``), which is then 
+*castellated* (i.e. the cells are split close to the body). Then the *snapping* steps takes place,
+during which the cells are "clipped" to fit the body. Further steps like growth of boundary 
+layers and other refinements can follow.
+
 Meshing controls are set in the ``snappyHexMeshDict`` located in the case
 **system** directory, which contains the following sections:
 
@@ -189,17 +202,7 @@ Meshing controls are set in the ``snappyHexMeshDict`` located in the case
 - Layers: prismatic layers are inserted by shrinking an existing mesh and creating an infill, 
   subject to the same mesh quality constraints
 - Mesh quality: mesh quality settings enforced during the snapping and layer addition phases
-- Global setting
-
-The overall meshing process is summarised by the figure below:
-
-.. figure:: img/snappyHexMesh-overview-small.png
-   :align: center
-
-   Figure source: OpenFOAM documentation `Meshing process <https://doc.openfoam.com/2312/tools/pre-processing/mesh/generation/snappyhexmesh/#meshing-process/>`__.
-
-
-
+- Global settings
 
 This includes:
 
@@ -214,8 +217,21 @@ This includes:
 
 Note:
 
-- Running ``snappyHexMesh`` will produce a separate directory for each step of the meshing process. The mesh in **constant** folder will be intact.
+- Running ``snappyHexMesh`` will produce a separate directory for each step of the meshing process. The 
+  mesh in **constant** folder will be intact.
 - Running ``snappyHexMesh –overwrite`` to write only the final mesh directly to **constant** folder
+
+
+Mesh visualisation
+------------------
+
+The computational mesh can be inspected with Paraview. Starting from an OF case folder, a file 
+(historically named ``r.foam``) has to be created (this will also be needed to visualise
+simulation results). After that, Paraview can be opened and you can click on File->Open and
+select the newly created ``r.foam``. Once the case is loaded, be sure to select 
+"Surface with edges" as visualisation type. An example visualisation for a 2D cavity
+is shown below.
+
 
 
 Mesh manipulation
@@ -227,6 +243,7 @@ The following tools are useful when manipulating the mesh, e.g. scaling the geom
    - topoSet
 
 .. _Mesh conversion:
+
 Mesh conversion
 ---------------
 
