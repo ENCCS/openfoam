@@ -5,12 +5,17 @@ Case Study
 
 .. questions::
 
-   - What is 
-   - What problem do 
+   - How do I set up a case with an OpenFOAM-native mesher?
+   - How do I set up boundary conditions and turbulence modelling?
+   - How do I run the case in parallel?
+   - How do I postprocess the results?
 
 .. objectives::
 
-   - introduce the basics of OpenFOAM
+   - Learn how to create a block-structured mesh with ``blockMesh``;
+   - Set up boundary conditions and turbulence modelling, if any;
+   - Run the case either in serial or parallel;
+   - Learn how to visualise and postprocess results in Paraview.
 
 .. instructor-note::
 
@@ -21,77 +26,53 @@ Case Study
 Lid-driven cavity flow
 ----------------------------
 
-This case uses OpenFOAM to calculate the incompressible flow in a two-dimensional square domain, see the Figure blow
+This case uses OpenFOAM to calculate the incompressible flow in a two-dimensional square domain, see the Figure below:
 
  .. image:: img/cavity2D_geometry.png
 
+You can copy it from the OpenFOAM tutorial folder:
 
-Here are some suggestions for this hands-on session.
+.. code:: console
 
-- Write questions on `Hackmd <https://hackmd.io/@enccs/openfoam-12-2021>`_.
-
-- Follow the instructions below to recap what we learned during th lecture.
-  The material is written for the Tegner cluster, but you can start on your laptop for maximum interactivity.
-
-- Although post-processing with Paraview is listed as optional (see last section in the hands-on), it is very highly recommended that
-  you install Paraview on your machine and inspect the results of the OpenFOAM simulations.
-  Of course, you can use another post-processor of your liking.
-
-- At some point, do login to Tegner, and get comfortable with running on iteractive nodes.
-  For that, follow the instructions in the `slides by Arash <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`_.
+   $ cp -r $FOAM_TUTORIALS/incompressibleFluid/cavity /path/where/you/want/to/run
 
 
-- Use the case as a sandbox to change various settings and play with the parameters. Use the "banana-trick" to learn about
-  possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.
+The structure of the case is the following:
 
-- If you have CFD experience, ask yourself: what settings would I typically need to change?
-  Then try to figure out what dictionaries and keywords correspond to that. The teachers are there to help!
-  Try also to dig online a little bit yourself: one of the course outcomes is that you should be able to continue develop your skills
-  on your own. 
-
-To use OpenFOAM on Tegner, we first need to load the appropriate module.
-This is followed by sourcing *$FOAM_BASHRC* to activate the OpenFOAM environment.
-The *$FOAM_TUTORIALS* will then store the path to the tutorial collection shipped with OpenFOAM.
-Note, you can also use the *tut* command to jump to the tutorial directory and look around.
-**Important:** Always copy the tutorial to a folder where you have full write permission, never execute tutorials inside *$FOAM_TUTORIALS*. 
-Also, as OpenFOAM cases are not always backward-compatible, please make sure to always copy cases from *$FOAM_TUTORIALS* of the current version you are using.
-
-.. code:: bash
-
- $ module add openfoam/1912  # Using OpenFOAM v1912         
- $ echo $FOAM_BASHRC
- /pdc/vol/openfoam/v1912/OpenFOAM-v1912/etc/bashrc
- $ source $FOAM_BASHRC
- $ cp -r $FOAM_TUTORIALS/incompressible/icoFoam/cavity/cavity . 
-
-- The structure of the case is shown in the following
-
-.. code:: bash
+.. code:: console
 
  $ cd cavity
  $ ls
  0 constant system
 
  $ tree 
+  .
+  ├── 0
+  │   ├── epsilon
+  │   ├── k
+  │   ├── nut
+  │   ├── nuTilda
+  │   ├── omega
+  │   ├── p
+  │   └── U
+  ├── constant
+  │   ├── momentumTransport
+  │   └── physicalProperties
+  ├── r.foam
+  └── system
+      ├── blockMeshDict
+      ├── controlDict
+      ├── fvSchemes
+      └── fvSolution
 
- ├── 0 (time directory starting with T=0, initial conditions)
- │   ├── p (pressure)
- │   └── U (flow velocity)
- ├── Allrun (precanned run file)
- ├── constant (hard static stuff i.e. physical properties)
- │   ├── transportProperties (Transport Model e.g. Newtonian)
- └── system
-    ├── blockMeshDict 
-    ├── controlDict (the main dictionary for controlling the simulation)
-    ├── fvSchemes
-    ├── fvSolution
-    ├── PDRblockMeshDict
+The default setting is to run the solver in serial on a two-dimensional square mesh of size (20×20×1).
+Note that all OpenFOAM cases are three-dimensional. For a two-dimensional case the third dimension has a single computational cell,
+and special boundary conditions are employed.
+The case will run up to time *0.5* with *0.005* per step, i.e. a total of 100 time steps. The simulation results are stored every 20 time steps. 
 
-- The default setting is to run the application *simpleFoam* in serial on a two-dimensional square mesh of size (20×20×1).
-  Note that all OpenFOAM cases are three-dimensional. For a two-dimensional case the third dimension has a single computational cell,
-  and special boundary conditions are employed.
-  The case will run up to time *0.5* with *0.005* per step, i.e. a total of 100 time steps. The simulation results are stored every 20 time steps. 
 
+- Use the case as a sandbox to change various settings and play with the parameters. Use the "banana-trick" to learn about
+  possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.
 
 Run the case by default
 +++++++++++++++++++++++
