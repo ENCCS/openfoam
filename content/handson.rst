@@ -65,14 +65,18 @@ The structure of the case is the following:
       ├── fvSchemes
       └── fvSolution
 
-The default setting is to run the solver in serial on a two-dimensional square mesh of size (20×20×1).
-Note that all OpenFOAM cases are three-dimensional. For a two-dimensional case the third dimension has a single computational cell,
-and special boundary conditions are employed.
-The case will run up to time *0.5* with *0.005* per step, i.e. a total of 100 time steps. The simulation results are stored every 20 time steps. 
+The default setting is to run the solver in serial on a two-dimensional square
+mesh of size (20×20×1). Note that all OpenFOAM cases are three-dimensional. For
+a two-dimensional case the third dimension has a single computational cell, and
+special boundary conditions are employed. The case will run up to time *0.5*
+with *0.005* non-dimensional time units per step, i.e. a total of 100 time
+steps. The simulation results are stored every 20 time steps. 
 
 
-- Use the case as a sandbox to change various settings and play with the parameters. Use the "banana-trick" to learn about
-  possible options: change any dictionary keyword to "banana", the case will crash showing possible valid options for the keyword.
+- Use the case as a sandbox to change various settings and play with the 
+  parameters. Use the "banana-trick" to learn about possible options: 
+  change any dictionary keyword to "banana", the case will crash showing possible
+  valid options for the keyword.
 
 Run the case by default
 +++++++++++++++++++++++
@@ -80,20 +84,21 @@ Run the case by default
 .. code:: bash
 
  $ blockMesh # create the equivalent mesh of (20x20x1)
- $ icoFoam > log.icoFoam
+ $ foamRun | tee log
  $ ls
  0  0.1  0.2  0.3  0.4  0.5  constant  system
 
-Congratulations, you were able to run your first OpenFOAM case on a PDC cluster! 
+Congratulations, you were able to run your first OpenFOAM case! 
 
 Inspecting the log file
 +++++++++++++++++++++++
 
 To make sure everything is OK we can look at the output logs from the OpenFOAM run.
 This will show us if the run actually worked as intended.
-To do this, inspect *log.icoFoam* with your favorite editor or simply use commands like *tail*.
+To do this, inspect *log.icoFoam* with your favorite editor or simply use commands 
+like ``tail``.
 
-.. code:: bash
+.. code:: console
 
  $ tail -n 50 log.icoFoam
  Time = 0.5
@@ -109,17 +114,18 @@ To do this, inspect *log.icoFoam* with your favorite editor or simply use comman
 
  End
 
-There is quite a bit of information to be extracted from the logs, such as residuals of the iterative solvers and the Courant number.
-Depending on the simulation options, the logs may become more expressive, monitoring additional simulation aspects.
+There is quite a bit of information to be extracted from the logs, such as residuals of the iterative 
+solvers and the Courant number.
+Depending on the simulation options, the logs may become more expressive, monitoring additional 
+simulation aspects.
 
 Creating the finer mesh
 +++++++++++++++++++++++
 
 The cavity case is too tiny to make running in parallel a reasonable alternative.
 We will therefore make the mesh denser.
-An overview of OpenFOAM meshing will be given during day 2 of the workshop.
 For now, we just provide the instruction for refining without much explaination.
-In *system/blockMeshDict*, the default mesh size is set by the triple *(20 20 1)*, 
+In ``system/blockMeshDict``, the default mesh size is set by the triple *(20 20 1)*, 
 in the following lines.
 
 .. code:: bash
@@ -140,13 +146,14 @@ So, to refine we can change it to e.g. *(100 100 1)*,
 
 And then rerun the command *blockMesh*.
 
-.. code:: bash
+.. code:: console
 
  $ blockMesh
 
-If you now run *icoFoam* you will notice that the solver is slow and that the Courant number is very high!
+If you now run ``foamRun`` you will notice that the solver is slow and that 
+the Courant number is very high!
 
-.. code:: bash
+.. code:: text
 
  Time = 0.01
 
@@ -159,7 +166,8 @@ If you now run *icoFoam* you will notice that the solver is slow and that the Co
  time step continuity errors : sum local = 2.39948e-08, global = -4.25067e-19, cumulative = -1.89512e-18
  ExecutionTime = 0.54 s  ClockTime = 0 s
 
-This makes sense: we decreased the cell size, so to keep the Courant number reasonable we also need to change the time step.
+This makes sense: we decreased the cell size, so to keep the Courant 
+number reasonable we also need to change the time step.
 This is done by changing the value of the *deltaT* keyword in the *controlDict*.
 We can set the time-step to 0.0005.
 
@@ -179,20 +187,20 @@ Inspecting *system/decomposeParDict*, we see that the case is set to be decompos
 
 We will leave this as is and now we can decompose the case and run in parallel.
 
-.. code:: bash
+.. code:: console
 
  $ decomposePar
 
 This will create directories *processor0* to *processor3*, containing the subdomains.
 To run the case, execute the following command.
 
-.. code:: bash
+.. code:: console
 
- $ mpirun -np 4 icoFoam -parallel > logfile.icoFoamParallel
+ $ mpirun -np 4 foamRun -parallel | tee logParallel
 
-Upon completion we can reconstruct the solution on the whole domain:
+Upon completion we can reconstruct the solution over the whole domain:
 
-.. code:: bash
+.. code:: console
   
  $ reconstructPar -latestTime
 
@@ -205,56 +213,58 @@ To do yourself:
 
 - Play around with mesh sizes and change *decomposeParDict* to run on a larger number of processors.
 
-- Go through https://www.pdc.kth.se/support/documents/run_jobs/job_scheduling.html#how-to-submit-jobs to learn how to
-  submit jobs to the cluster queue. Try to submit your cavity case as a short queued job.
-  A simple jobs script example is available in the `slides by Arash <https://github.com/ENCCS/OpenFOAM/blob/main/getting_started_with_Tegner.pdf>`_.
-
 
 Increasing the Reynolds number
 ++++++++++++++++++++++++++++++
 
-We will now increase the Reynolds number to *100*, at which point the solution takes a noticeably longer time to converge.
+We will now increase the Reynolds number to *100*, at which point the solution takes a noticeably 
+longer time to converge.
 
-.. code:: bash
+.. code:: console
 
  $ cp -r cavity cavityHighRe
 
-and then edit *transportProperties* dictionary to reduce the kinematic viscosity to *0.001*
+and then edit *physicalProperties* dictionary to reduce the kinematic viscosity to *0.001*
 
-.. code:: bash
+.. code:: console
 
  nu              0.01;
 
 to 
 
-.. code:: bash
+.. code:: console
 
  nu              0.001;
 
 
-Increase the *endTime* from *0.5* to *2* so that *icoFoam*  run upto 2 seconds.
+Increase the *endTime* from *0.5* to *2* so that ``foamRun`` runs up to 2 seconds.
 
-.. code:: bash 
+.. code:: console 
 
- $ icoFoam
+ $ foamRun
 
 Turbulence modelling (optional)
 +++++++++++++++++++++++++++++++
 
-The need to increase spatial and temporal resolution then becomes impractical as the flow moves into the turbulent regime, where problems of solution stability may also occur. 
-Instead Reynolds-averaged simulation (RAS) turbulence models are used to solve for the mean 
-flow behaviour and calculate the statistics of the fluctuations.
-The standard k-epsilon model with wall functions will be used in this tutorial to solve the lid-driven cavity case with a Reynolds number of 10^4.
-Two extra variables are solved for: k, the turbulent kinetic energy, and epsilon, the turbulent dissipation rate.
-The additional equations and models for turbulent flow are implemented into a OpenFOAM solver called *pisoFoam*.
-To setup the model you will need three additional files in the 0 directory: *nut*, *k*, *epsilon*.
-Create them by making a copy of the *p* file, and then modify them as needed.
+The need to increase spatial and temporal resolution becomes impractical
+as the flow moves into the turbulent regime, where problems of solution
+stability may also occur. Instead, Reynolds-averaged simulation (RAS) turbulence
+models are used to solve for the mean flow behaviour and calculate the
+statistics of the fluctuations. The standard k-epsilon model with wall
+functions will be used in this tutorial to solve the lid-driven cavity case
+with a Reynolds number of :math:`10^4`. Two extra variables are solved for: k, the
+turbulent kinetic energy, and :math:`\varepsilon`, the turbulent dissipation rate. 
+To setup the model you will need three additional files in the 0 directory: *nut*, 
+*k*, *epsilon*. Create them by making a copy of the *p* file, and then modify them 
+as needed.
 
-A range of wall function models is available in OpenFOAM that are applied as boundary conditions on individual patches.
-This enables different wall function models to be applied to different wall regions.
-The choice of wall function models are specified through the turbulent viscosity field, nut, in the *0/nut* file:
+A range of wall function models is available in OpenFOAM that are applied as
+boundary conditions on individual patches. This enables different wall function
+models to be applied to different wall regions. The choice of wall function
+models are specified through the turbulent viscosity field, nut, in the *0/nut*
+file:
 
-.. code:: bash
+.. code:: cpp
 
  dimensions      [0 2 -1 0 0 0 0];
 
@@ -279,14 +289,19 @@ The choice of wall function models are specified through the turbulent viscosity
  }
 
 
-You should should now open the field files for *k* and *epsilon* ( in *0/k* and *0/epsilon*) and set their boundary conditions. 
-For a wall boundary condition wall, *epsilon* is assigned an *epsilonWallFunction* boundary condition and a *kqRwallFunction* boundary condition is assigned to *k*.
-The latter is a generic boundary condition that can be applied to any field that are of a turbulent kinetic energy type, e.g. *k*, *q* or  Reynolds Stress *R* 
+You should should now open the field files for *k* and *epsilon* ( in *0/k* and *0/epsilon*) 
+and set their boundary conditions. For a wall boundary condition wall, *epsilon* is assigned 
+an *epsilonWallFunction* boundary condition and a *kqRwallFunction* boundary condition is assigned to *k*.
+The latter is a generic boundary condition that can be applied to any field that are of a turbulent kinetic 
+energy type, e.g. *k*, *q* or  Reynolds Stress *R*. 
 
 
-Turbulence modelling includes a range of methods, e.g. *RAS* or large-eddy simulation (*LES*), that are provided in OpenFOAM. In most transient solvers, the choice of turbulence modelling method is selectable at run-time through the simulationType keyword in turbulenceProperties dictionary. The user can view this file in the constant directory:
+Turbulence modelling includes a range of methods, e.g. *RAS* or large-eddy simulation (*LES*), that are 
+provided in OpenFOAM. In most transient solvers, the choice of turbulence modelling method is selectable 
+at run-time through the simulationType keyword in momentumTransport dictionary. The user can view this 
+file in the constant directory:
 
-.. code:: bash 
+.. code:: cpp 
 
  simulationType  RAS;
 
@@ -300,7 +315,7 @@ Turbulence modelling includes a range of methods, e.g. *RAS* or large-eddy simul
  }
 
 The options for *simulationType* are *laminar*, *RAS* and *LES*. 
-More informaton on turbulence models can be found in the Extended Code Guide 
+More informaton on turbulence models can be found in the Extended Code Guide.
 With RAS selected in this case, the choice of *RAS* modelling is specified in 
 a turbulenceProperties subdictionary, also in the constant directory. 
 The turbulence model is selected by the *RASModel* entry from a long list of 
@@ -310,10 +325,10 @@ the user should also ensure that turbulence calculation is switched on.
 
 Finally, you can run the case with commands:
 
-.. code:: bash
+.. code:: console
 
  $ blockMesh
- $ pisoFoam
+ $ foamRun
 
 Post-processing (optional)
 ++++++++++++++++++++++++++
@@ -328,7 +343,7 @@ The *paraFoam* post-processing is started by typing in the terminal from within 
  
 Alternatively, if you can add an empty file inside the case directory. 
 
-.. code:: bash
+.. code:: console
 
  $ touch case.foam
 
