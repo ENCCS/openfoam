@@ -181,7 +181,7 @@ Running in parallel
 Let us now run the case in parallel.
 Inspecting *system/decomposeParDict*, we see that the case is set to be decomposed into 4 subdomains.
 
-.. code:: bash
+.. code:: cpp
 
  numberOfSubdomains  4;
 
@@ -189,20 +189,23 @@ We will leave this as is and now we can decompose the case and run in parallel.
 
 .. code:: console
 
- $ decomposePar
+ $ decomposePar -fileHandler collated
 
-This will create directories *processor0* to *processor3*, containing the subdomains.
+This will create a ``processors4`` directory which contains, for each writed step and field,
+a single file that can be accessed by all ranks in parallel. The default ``uncollated`` 
+format would create one file per field and rank, which can quickly amount to millions 
+of files for massively parallel simulations.
 To run the case, execute the following command.
 
 .. code:: console
 
- $ mpirun -np 4 foamRun -parallel | tee logParallel
+ $ mpirun -np 4 foamRun -parallel -fileHandler collated | tee logParallel
 
 Upon completion we can reconstruct the solution over the whole domain:
 
 .. code:: console
   
- $ reconstructPar -latestTime
+ $ reconstructPar -latestTime -fileHandler collated
 
 Here, the *-latestTime* flag tells the program to only reconstruct the last time-step.
 
@@ -333,8 +336,9 @@ Finally, you can run the case with commands:
 Post-processing (optional)
 ++++++++++++++++++++++++++
 
-The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a wrapper of *paraview* (www.paraview.org).
-The *paraFoam* post-processing is started by typing in the terminal from within the case directory with loading *paraview* module.
+The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a
+wrapper of `Paraview <https://www.paraview.org>`__. The *paraFoam* tool is
+started by typing in the terminal from within the case directory.
 
 .. code:: bash
 
@@ -354,43 +358,30 @@ You can now open this file with regular Paraview, and not *paraFoam*.
 .. image:: img/cavity2D_pressure.png
 
 
-
-
-
-
-
-
-
-
-
-
 MotorBike
 ---------
 
-This case uses OpenFOAM to calculate the steady flow around a motorbike and rider using RAS turbulence modelling with wall functions.
-The initialization of flow velocity is to 20 m/s.
-The box includes the bike and ride are approximately 2.0x0.8x1.3m and the estimated characteristic length scale L=0.5m, see the Figure below.
+This case uses OpenFOAM to calculate the steady flow around a motorbike and
+rider using RAS turbulence modelling with wall functions. The initialization of
+the velocity field is to 20 m/s. The box includes both bike and rider and 
+its size is approximately 2.0x0.8x1.3m. The estimated characteristic length scale
+is L=0.5m.
 
 .. image:: img/motorbike_overall.png
 
-As you will see, this is a more advanced case than the cavity, involving *snappyHexMesh* to generate the mesh, RANS modelling,
-and using several function objects.
-The idea is to further strengthen the familiarity with OpenFOAM input and have a more fun case to play around with than the cavity.
+This is a more advanced case than the cavity, involving *snappyHexMesh* to generate 
+the mesh, RANS modelling, and using several function objects.
 
+Notice that OpenFOAM cases are not backwards-compatible, so a tutorial from the 
+current OpenFOAM version is needed.
 
-Notice that OpenFOAM cases are not backward compatible, please always copy cases from *$FOAM_TUTORIALS* of current version
+.. code:: console
 
-.. code:: bash
-
- $ module add openfoam/1912
- $ echo $FOAM_BASHRC
- /pdc/vol/openfoam/v1912/OpenFOAM-v1912/etc/bashrc
- $ source $FOAM_BASHRC
  $ cp -r $FOAM_TUTORIALS/incompressible/simpleFoam/motorBike .
 
-- The structure of the case is shown in the following
+- The structure of the case is as follows:
 
-.. code:: bash
+.. code:: console
 
  $ cd motorBike
  $ ls
@@ -398,117 +389,107 @@ Notice that OpenFOAM cases are not backward compatible, please always copy cases
 
  $ tree -d 1 .
 
- ├── 0.orig (time directory starting with T=0, initial conditions)
- │   ├── include
- │   │   ├── fixedInlet
- │   │   ├── frontBackUpperPatches
- │   │   └── initialConditions
- │   ├── k (turbulence kenetic energy)
- │   ├── nut (turbulence viscosity)
- │   ├── omega (turbulence specific dissipation rate)
- │   ├── p (pressure)
- │   └── U (flow velocity)
- ├── Allclean (precanned clean file)
- ├── Allrun (precanned run file)
- ├── constant (hard static stuff i.e. physical properties)
- |-- RASProperties (Reynolds-Averaged Simulation Model to use e.g. kOmegaSST)
- │   ├── polyMesh
- │   │   ├── blockMeshDict
- │   │   ├── boundary
- │   ├── transportProperties (Transport Model e.g. Newtonian)
- │   ├── triSurface
- │   │   ├── motorBike.obj.gz (actual motorbike model)
- │   └── turbulenceProperties
- └── system
-    ├── blockMeshDict 
-    ├── controlDict (the main dictionary for controlling the simulation)
-    ├── decomposeParDict (dictionary for partitioning up the space into smaller chunks)
-    ├── fvSchemes
-    ├── fvSolution
-    ├── snappyHexMeshDict (the dictionary for adding a mesh for simulating surface interactions)
+  .
+  ├── 0
+  │   ├── include
+  │   │   ├── fixedInlet
+  │   │   ├── frontBackUpperPatches
+  │   │   └── initialConditions
+  │   ├── k
+  │   ├── nut
+  │   ├── nuTilda
+  │   ├── p
+  │   └── U
+  ├── Allclean
+  ├── Allrun
+  ├── constant
+  │   ├── geometry
+  │   │   └── README
+  │   ├── momentumTransport
+  │   └── physicalProperties
+  └── system
+      ├── blockMeshDict
+      ├── controlDict
+      ├── cutPlane
+      ├── decomposeParDict
+      ├── forceCoeffs
+      ├── functions
+      ├── fvSchemes
+      ├── fvSolution
+      ├── snappyHexMeshDict
+      └── streamlines
 
-- The default setting is to run the application simpleFoam on 6 MPI-rank with background mesh block
-  of size (20×8×8). The results are stored in 5 time steps 100, 200, 300, 400 and 500.
+The default setting is to run the application simpleFoam on 6 MPI-rank with
+background mesh block of size (20×8×8). The results are stored in 5 time steps
+100, 200, 300, 400 and 500.
 
+Run the case with default parameters
+++++++++++++++++++++++++++++++++++++
 
-The following tasks are suggested during the hands-on session.
+.. code:: console
 
-- Try to change some parameters in the snappyHexMeshDict, can you see what happens?
-
-- Try to figure out what each fucntion object does. Search for documentation in the user guide.
-  If you are brave, look at the source code, that is the big plus of open-source! 
-
-- Think about what you typically look at in your CFD simulations. See if you can find a suitable function object.
-  (Suggestions: inlet-outlet mass flow balance, y+ values, Co-number, velocity min/max, residuals, etc.)
-
-
-Run the case by default
-+++++++++++++++++++++++
-
-.. code:: bash
-
- $ source $FOAM_BASHRC
  $ ./Allrun # run the workflow
 
-The script *Allrun* is a script to collect all commands for whole workflow.
-You can use it, but it is not very pedagogical. Better to manually go through each command to remember what it does.
+The script *Allrun* is a script to collect all the commands for whole workflow.
+You can use it, but it is not very pedagogical. Better to manually go through
+each command to remember what it does.
 
-.. code:: bash
+.. code:: console
 
  # Copy motorbike surface from resources directory
- cp $FOAM_TUTORIALS/resources/geometry/motorBike.obj.gz constant/triSurface/
-
- # Restore the 0 directory
- cp -r 0.orig 0
-   
- # Extracts and writes surface features to file
- surfaceFeatureExtract
+ cp $FOAM_TUTORIALS/resources/geometry/motorBike.obj.gz constant/geometry/
 
  # Create a block mesh, which will be the background mesh for snappy
  blockMesh
 
  # Decompose a mesh for parallelization
- decomposePar -copyZero
+ decomposePar -copyZero -fileHandler collated
 
  # Run the snappyHexMesh in parallel!
- mpirun -np 6 snappyHexMesh -parallel -overwrite > log.snappyHexMesh
+ mpirun -np 6 snappyHexMesh -parallel -fileHandler collated -overwrite | tee log.snappyHexMesh
 
- # Run a potential flow solver
- mpirun -np 6 potentialFoam -parallel -writephi > log.potentialFoam
+ # Run a potential flow solver to get a good initial condition
+ mpirun -np 6 potentialFoam -parallel -fileHandler collated -initialiseUBCs | tee log.potentialFoam
 
  # Run the steady-state solver for incompressible flow
- mpirun -np 6 simpleFoam -parallel > log.simpleFoam
+ mpirun -np 6 foamRun -parallel -fileHandler collated | tee log.foamRun
 
  # Reconstruct the mesh using geometric information
- reconstructParMesh -constant
+ reconstructParMesh -constant -fileHandler collated
 
  # Reconstruct fields of the parallel case
- reconstructPar -latestTime
+ reconstructPar -fileHandler collated -latestTime
 
 Some stuff worth noting here:
 
-- We want to generate the mesh in parallel and this introduces some extra shenanigans into the workflow.
-  This is not really needed for this case, but can be good to know.
+- Mesh generation is performed in parallel;
 
-- We generate the background mesh with *blockMesh* and then decompose that into subdomains with *decomposePar*.
-  Here, we have to provide the *-copyZero* flag, so that the *0* folder is simply copied to the *processor* directories
-  without change. Otherwise, some stuff will be "optimized away", for example entries for boundaries that are not found in the mesh.
-  Since the background mesh generate by *blockMesh* does not contain the motorbike, this would completely ruin the *0* folder.
+- We generate the background mesh with *blockMesh* and then decompose that into
+  subdomains with ``decomposePar``. Here, we have to provide the ``-copyZero``
+  flag, so that the *0* folder is simply copied to the *processor* directories
+  without change. Otherwise, some stuff will be "optimized away", for example
+  entries for boundaries that are not found in the mesh. Since the background
+  mesh generate by ``blockMesh`` does not contain the motorbike, this would
+  completely ruin the *0* folder.
 
-- We run *potentialFoam* to solve potential flow equations to get a better initial condition. Note a corresponding entry in *system/fvSolution*.
+- We run ``potentialFoam`` to solve potential flow equations to get a better
+  initial condition. Note a corresponding entry in ``system/fvSolution``.
   
-- After running the case we need to reconstruct not only the data but also the mesh, which was generated in parallel. For that, we use *reconstructParMesh*.
-  The *-constant* flag makes it put the mesh directly into *constant/polyMesh*.
+- After running the case we need to reconstruct not only the data but also the
+  mesh, which was generated in parallel. For that, we use
+  ``reconstructParMesh``. The ``-constant`` flag makes it put the mesh directly
+  into ``constant/polyMesh``.
 
 
 Validating the model
 ++++++++++++++++++++
 
 To make sure everything is OK we can the output logs from the OpenFOAM run,
-this will show if the run actually worked or not. For each stage there is a log.[stage]
-output. For example, in the *log.simpleFoam* file the coefficients should be likes
+this will show if the run actually worked or not. For each stage there is a
+log.[stage] output. For example, in the *log.foamRun* file the coefficients
+should be likes
 
-.. code:: bash
+.. code:: console
 
  $ tail -n 50 ./log.simpleFoam
  ...
@@ -531,41 +512,52 @@ Here you can see that function objects add new stuff to the log!
 Parallelization
 +++++++++++++++
 
-we can change the MPI rank and the decomposition method in file *system/decomposeParDict*, for example, change the default
+We can change the number of MPI ranks and the decomposition method in file
+*system/decomposeParDict*, for example, change the default.
 
-.. code:: bash
+.. code:: cpp
 
  numberOfSubdomains 6;
  method hierarchical;
 
 to
 
-.. code:: bash
+.. code:: cpp
 
  numberOfSubdomains 24; // MPI-rank
  method scotch;         // using scotch for partition
 
-(Note: If you still used *method hierarchical*, the *hierarchicalCoeffs* in the file
-should be coordinately changed)
+(Note: If you still used *method hierarchical*, the *hierarchicalCoeffs* in the
+file should be coordinately changed)
 
-.. code:: bash
+.. code:: cpp
 
  hierarchicalCoeffs
  {
  n (4 3 2); // 4x3x2 = 24 !!
  } 
 
-The script *Allclean* can be used to delete the log files and remove the results from
+The script ``Allclean`` can be used to delete the log files and remove the results from
 motorBike run and then rerun again.
 
 Mesh refinement
 +++++++++++++++
 
-- For scalability tests, the default mesh of 350 k cells may be small, (you can check the mesh information in *log.snappyHexMesh*
+Information about cell count and other quality parameters can be inspected with
+the ``checkMesh`` command.
 
-.. code:: bash
+.. code:: text
 
- Layer mesh : cells:353548  faces:1107696  points:405989
+  Mesh stats
+      points:           3889958
+      faces:            10253758
+      internal faces:   9645402
+      cells:            3215663
+      faces per cell:   6.1882
+      boundary patches: 76
+      point zones:      0
+      face zones:       0
+      cell zones:       0
 
 We need to increase the block mesh size and change the settings in file *system/blockMeshDict*, for example, from
 
@@ -578,27 +570,22 @@ We need to increase the block mesh size and change the settings in file *system/
 
 to
 
-.. code:: bash
+.. code:: cpp
 
  blocks
  (
  hex (0 1 2 3 4 5 6 7) (40 16 16) simpleGrading (1 1 1)
  );
 
-i.e. the mesh size in x, y, and z-directory increases twice. The script *Allclean* can be used to delete the log files and remove the results from motorBike run and then rerun again.
+i.e. the mesh size in x, y, and z-directory increases twice. The script
+*Allclean* can be used to delete the log files and remove the results from
+motorBike run and then rerun again.
 
-(Notice: Please do not refine the mesh too much. Otherwise execution time becomes very long)
 
-.. code :: bash
+.. code :: console
 
  $ ./Allclean
  $ ./Allrun
-
-The total number of cells is around 1.8 M (check it the log.snappyHexMesh) 
-
-.. code:: bash
-
- Layer mesh : cells:1892612  faces:5875533  points:2112502
 
 snappyHexMesh
 +++++++++++++
