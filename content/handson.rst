@@ -337,21 +337,16 @@ Post-processing (optional)
 ++++++++++++++++++++++++++
 
 The post-processing tool supplied with OpenFOAM is *paraFoam*, which is a
-wrapper of `Paraview <https://www.paraview.org>`__. The *paraFoam* tool is
-started by typing in the terminal from within the case directory.
-
-.. code:: bash
-
- $ module add paraview/5.8.1-gcc-7.2
- $ paraFoam
- 
-Alternatively, if you can add an empty file inside the case directory. 
+wrapper of `Paraview <https://www.paraview.org>`__. Compared to vanilla
+Paraview, it has an additional reader for ``blockMesh`` dictionaries and can
+visualise patch names. To open an OpenFOAM case with native Paraview, you can
+add an empty file inside the case directory. 
 
 .. code:: console
 
  $ touch case.foam
 
-You can now open this file with regular Paraview, and not *paraFoam*.
+You can now open this file with regular Paraview.
 
 .. image:: img/cavity2D_mesh.png
 
@@ -369,8 +364,18 @@ is L=0.5m.
 
 .. image:: img/motorbike_overall.png
 
-This is a more advanced case than the cavity, involving *snappyHexMesh* to generate 
-the mesh, RANS modelling, and using several function objects.
+This is a more advanced case than the cavity, involving *snappyHexMesh* to
+generate the mesh, RANS modelling, and using several function objects. In 
+OpenFOAM-speak, function objects are forms of computation or data manipulation
+that can be executed "online" while the solver is running or in a separate
+post-processing step; common function objects are, for example:
+
+- Sample a quantity on a point/line/plane/patch/cloud and save it on disk;
+- Solve an additional transport equation (e.g. temperature in an incompressible
+  flow)
+- Seed the flow with Lagrangian particles (one-way LPT);
+- Streamlines;
+- ...
 
 Notice that OpenFOAM cases are not backwards-compatible, so a tutorial from the 
 current OpenFOAM version is needed.
@@ -460,7 +465,7 @@ each command to remember what it does.
  # Reconstruct fields of the parallel case
  reconstructPar -fileHandler collated -latestTime
 
-Some stuff worth noting here:
+Some points worth noting here:
 
 - Mesh generation is performed in parallel;
 
@@ -481,7 +486,7 @@ Some stuff worth noting here:
   into ``constant/polyMesh``.
 
 
-Validating the model
+Inspecting the run
 ++++++++++++++++++++
 
 To make sure everything is OK we can the output logs from the OpenFOAM run,
@@ -559,7 +564,8 @@ the ``checkMesh`` command.
       face zones:       0
       cell zones:       0
 
-We need to increase the block mesh size and change the settings in file *system/blockMeshDict*, for example, from
+We need to increase the block mesh size and change the settings in file
+*system/blockMeshDict*, for example, from
 
 .. code:: bash
 
@@ -590,7 +596,8 @@ motorBike run and then rerun again.
 snappyHexMesh
 +++++++++++++
 
-The mesher performs three steps to create the mesh from the background mesh and the stl surface of the motorbike.
+The mesher performs three steps to create the mesh from the background mesh and
+the stl surface of the motorbike.
 
 .. code:: bash
 
@@ -601,19 +608,20 @@ The mesher performs three steps to create the mesh from the background mesh and 
  snap            true;
  addLayers       true;
 
-Try running snappyHexMesh without the *-overwrite* flag and take a look at the three produced meshes in the consecutive
-time directories written.
-Can you see the difference from step to step?
-Note that *addLayers* can be removed, and the produced mesh will still conform to the geometry.
+Try running snappyHexMesh without the *-overwrite* flag and take a look at the
+three produced meshes in the consecutive time directories written. Can you see
+the difference from step to step? Note that *addLayers* can be removed, and the
+produced mesh will still conform to the geometry.
 
-There are many settings which can be modified to refine and improve the mesh quality. For example,
+There are many settings which can be modified to refine and improve the mesh
+quality. For example,
 
 .. code:: bash
 
  $ less system/snappyHexMeshDict
  ...
 
- // Geometry refinement for wak region 
+ // Geometry refinement for wake region 
  geometry
  {
     refinementBox
@@ -638,28 +646,29 @@ There are many settings which can be modified to refine and improve the mesh qua
 
   ...
 
-refines the mesh in a predifined box. Try changing the parameters of the box and look at the effect.
-You could also try creating a new geometric primitve and refining it. As usual, to see what is there set *type* to *banana*,
-let the mesher crash and write out available valid options.
+refines the mesh in a predifined box. Try changing the parameters of the box
+and look at the effect. You could also try creating a new geometric primitve
+and refining it. As usual, to see what is there set *type* to *banana*, let the
+mesher crash and write out available valid options.
 
 Function objects
 ++++++++++++++++
 
-The motorbike case contains several function objects distributed among respective files in *system*.
-Take a look at them, try to understand what they do. Consult the User guide on openfoam.com.
+The motorbike case contains several function objects distributed among
+respective files in *system*. Take a look at them, try to understand what they
+do. To add the execution to a function object to a case, it has to be added 
+to the ``system/functions`` dictionary (from OF 12).
 
-.. code:: bash
+.. code:: console
 
  ...
- $ less system/controlDict
+ $ less system/functions
 
  functions
  {
     #include "streamLines"
-    #include "wallBoundedStreamLines"
-    #include "cuttingPlane"
+    #include "cutPlane"
     #include "forceCoeffs"
-    #include "ensightWrite"
  }
 
  $ ls system
@@ -711,23 +720,23 @@ The solvers are selected in the *system/fvSolution*
         smoother        GaussSeidel;
  ...
 
-More details about the OpenFOAM schemes and solvers can be found at `OpenFOAM: User Guide <https://www.openfoam.com/documentation/guides/latest/doc/index.html>`_
-Feel free to horse around with the settings even if it kills the solver.
-Use the banana trick to see what solvers are available e.g. for pressure and try to change to a different solver?
-Is the case running faster or slower? You can always look at the execution time in the log file.
+More details about the OpenFOAM schemes and solvers can be found at `OpenFOAM:
+User Guide
+<https://www.openfoam.com/documentation/guides/latest/doc/index.html>`_ Feel
+free to horse around with the settings even if it kills the solver. Use the
+banana trick to see what solvers are available e.g. for pressure and try to
+change to a different solver? Is the case running faster or slower? You can
+always look at the execution time in the log file.
 
 
 Post-processing
 +++++++++++++++
 
-As already mentioned multiple times, Paraview can be used to inspect the case: mesh, flow variable, function object output.
-The motorbike case is great for a fancy visualization, so if you have the time and desire, try to produce something interesting!
-It is easiest to work with Paraview on your own machine, but you can also use Tegner.
+As already mentioned multiple times, Paraview can be used to inspect the case:
+mesh, flow variable, function object output. The motorbike case is great for a
+fancy visualization, so if you have the time and desire, try to produce
+something interesting!
 
-.. code:: bash
-
-  $ module add paraview
-  $ paraFoam
 
 .. image:: img/motorbike_result.png
 
