@@ -1,0 +1,94 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+kInlet          0.25;   // approx k = 1.5*(I*U)^2 ; I = 0.1
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform $kInlet;
+
+boundaryField
+{
+    sector1
+    {
+	type fixedValue;
+	value uniform $kInlet;
+    }
+
+    sector2
+    {
+        type fixedValue;
+	value uniform $kInlet;
+    }
+
+    sector3
+    {
+        type fixedValue;
+	value uniform $kInlet;
+    }
+
+    sector4
+    {
+        type fixedValue;
+	value uniform $kInlet;
+    }
+
+    sector5
+    {
+        type inletOutlet;
+	inletValue uniform $kInlet;
+	value uniform $kInlet;
+    }
+
+    sector6
+    {
+        type inletOutlet;
+	inletValue uniform $kInlet;
+	value uniform $kInlet;
+    }
+
+    sector7
+    {
+        type inletOutlet;
+	inletValue uniform $kInlet;
+	value uniform $kInlet;
+    }
+
+    sector8
+    {
+        type inletOutlet;
+	inletValue uniform $kInlet;
+	value uniform $kInlet;
+    }
+
+    ground
+    {
+        type            kqRWallFunction;
+        value           uniform 0.0;
+    }
+
+
+    wall
+    {
+        type            kqRWallFunction;
+        value           uniform 0.0;
+    }
+
+
+    #includeEtc "caseDicts/setConstraintTypes"
+}
+
+// ************************************************************************* //
