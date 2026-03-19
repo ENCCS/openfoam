@@ -932,7 +932,7 @@ while the top of the domain is set to a ``symmetry`` condition
         - nutkRoughWallFunction
 
 	  
-To speficy flow direction, one need to change the entry ``flowDir`` in the file *0/include/ABLConditions*
+To specify flow direction, one need to change the entry ``flowDir`` in the file *0/include/ABLConditions*
  
 .. code:: cpp
 
