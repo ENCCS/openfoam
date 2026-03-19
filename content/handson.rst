@@ -833,7 +833,7 @@ Copy the original boundary conditions to a *0* time directory
 
    
 At this stage, one could modify various boundary/inflow conditions if necessary.
-See section `Boundary conditions <https://qianglise.github.io/openfoamold/handson/#boundary-conditions>`__
+See section `Boundary conditions <https://enccs.github.io/openfoam/handson/#boundary-conditions>`__
 for more detail. Once all the boundary conditions are set, create the mesh
 by using ``blockMesh`` and followed by ``snappyHexMesh`` for the mesh refinement.
 
@@ -857,8 +857,8 @@ Some stuff worth noting here:
 
 
 Next step, run the solver with the default setup of the domain decomposition and turbulence modelling.
-See sections `Parallelization <https://qianglise.github.io/openfoamold/handson/#parallelization>`__ and
-`Turbulence modelling <https://qianglise.github.io/openfoamold/handson/#turbulence-modelling>`__
+See sections `Parallelization <https://enccs.github.io/openfoam/handson/#parallelization>`__ and
+`Turbulence modelling <https://enccs.github.io/openfoam/handson/#turbulence-modelling>`__
 below for more details about changing the default setup.
 
 .. code:: bash
