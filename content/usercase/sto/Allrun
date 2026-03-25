@@ -1,0 +1,21 @@
+#!/bin/bash
+cd ${0%/*} || exit 1    # run from this directory
+
+
+./Allclean
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+unset FOAM_SIGFPE
+
+cp -r 0.orig 0
+
+runApplication surfacefeature
+runApplication blockMesh 
+runApplication decomposePar -copyZero 
+runParallel snappyHexMesh 
+runApplication $(getApplication)
+runApplication reconstructPar -latestTime
+
+exit 0

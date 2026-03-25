@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+epsilonInlet  0.03; // Cmu^0.75 * k^1.5 / L ; L =10
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform $epsilonInlet;
+
+boundaryField
+{
+    sector1
+    {
+	type fixedValue;
+	value uniform $epsilonInlet;
+    }
+
+    sector2
+    {
+        type fixedValue;
+	value uniform $epsilonInlet;
+    }
+
+    sector3
+    {
+        type fixedValue;
+	value uniform $epsilonInlet;
+    }
+
+    sector4
+    {
+        type fixedValue;
+	value uniform $epsilonInlet;
+    }
+
+    sector5
+    {
+        type inletOutlet;
+	inletValue uniform $epsilonInlet;
+	value uniform $epsilonInlet;
+    }
+
+    sector6
+    {
+        type inletOutlet;
+	inletValue uniform $epsilonInlet;
+	value uniform $epsilonInlet;
+    }
+
+    sector7
+    {
+        type inletOutlet;
+	inletValue uniform $epsilonInlet;
+	value uniform $epsilonInlet;
+    }
+
+    sector8
+    {
+        type inletOutlet;
+	inletValue uniform $epsilonInlet;
+	value uniform $epsilonInlet;
+    }
+
+    wall
+    {
+        type            epsilonWallFunction;
+        value           uniform $epsilonInlet;
+    }
+
+    ground
+    {
+        type            epsilonWallFunction;
+        value           uniform $epsilonInlet;
+    }
+
+
+    #includeEtc "caseDicts/setConstraintTypes"
+}
+
+// ************************************************************************* //

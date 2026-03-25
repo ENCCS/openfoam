@@ -5,12 +5,15 @@ Numerics
 
 .. questions::
 
-   - What is 
-   - What problem do 
+   - What is the general form of the equations we are trying to solve?
+   - Which discretisation schemes are available in OpenFOAM and how do we prescribe them?
+   - Which linear solvers are available in OpenFOAM and how do we prescribe them?
 
 .. objectives::
 
-   - Explain 
+   - Know in which files discretisation schemes and linear solvers are prescribed
+   - Know which schemes are available for each term
+   - Use some rule of thumb to decide which schemes are more suitable for each term
 
 .. instructor-note::
 
@@ -128,30 +131,9 @@ Interpolation schemes are specified in the ``fvSchemes`` file under the interpol
          }
 
 
-A wide variety of interpolation schemes are available, ranging from those that are based solely on geometry, and others, e.g. convection schemes that are functions of the local flow:
+A wide variety of interpolation schemes are available; some of them only depend on the geometry, while others are mainly used with convection (divergence) fluxes.
+For non-convective fluxes, the ``linear`` scheme is the most used.
 
-   - Linear scheme: The most obvious option is linear interpolation, 2nd order accurate.  However, for convective fluxes it introduces oscillations
-   - Convection scheme: Many options for interpolating the  convective flux exist. Often it is the most important numerical choice in the simulation. Many of the convection schemes available in OpenFOAM are based on the TVD and NVD: 
-
-        - NVD/TVD convection schemes::
-         
-            - Limited linear divergence scheme
-            - Linear divergence scheme
-            - Linear-upwind divergence scheme
-            - MUSCL divergence scheme
-            - Mid-point divergence scheme
-            - Minmod divergence scheme
-            - QUICK divergence scheme
-            - UMIST divergence scheme
-            - Upwind divergence scheme
-            - Van Leer divergence scheme
-         
-        - Non-NVD/TVD convection schemes::
-
-            - Courant number blended divergence scheme
-            - DES hybrid divergence scheme
-            - Filtered Linear (2) divergence scheme
-            - LUST divergence scheme
 
 
 
@@ -173,7 +155,7 @@ Now it is the time to choose a time integration scheme. Temporal schemes define 
          }
 
 
-Available **<time scheme>** include
+Available **<time scheme>** include:
 
     - Backward time scheme
     - Crank-Nicolson time scheme
@@ -213,17 +195,19 @@ Gradient schemes are specified in the fvSchemes file under the gradSchemes sub-d
 
 
 Gradient schemes
+~~~~~~~~~~~~~~~~~~~~~~
 
    - Gauss gradient scheme
    - Least-squares gradient scheme
 
 Interpolation schemes
-
+~~~~~~~~~~~~~~~~~~~~~~
    - linear: cell-based linear
    - pointLinear: point-based linear
    - leastSquares: Least squares
 
 Gradient limiters
+~~~~~~~~~~~~~~~~~~~~~~
 
 The limited gradient schemes attempt to preserve the monotonicity condition by limiting the gradient to ensure that the extrapolated face value is bounded by the neighbouring cell values.
 
@@ -266,34 +250,36 @@ A typical use is for convection schemes, which transport a property under the in
                 div(phi,Q)      Gauss <interpolation scheme>;
             }
 
-The phi keyword is typically used to represent the flux (flow) across cell faces, i.e.
-https://doc.openfoam.com/2312/tools/processing/numerics/schemes/divergence/
-- volumetric flux:
-- mass flux:
+The phi keyword is typically used to represent the `velocity flux <https://doc.cfd.direct/openfoam/user-guide-v12/fvschemes>`__ across cell faces, i.e. the 
+volumetric flow rate (:math:`\phi=\mathbf{u}_f\cdot \mathbf{S}_f`) for incompressible flows or the mass flow rate (:math:`\phi=\rho_f(\mathbf{u}_f\cdot \mathbf{S}_f)`)
+for compressible flows.
 
 
 NVD/TVD convection schemes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Many of the convection schemes available in OpenFOAM are based on the TVD and NVD [PROVIDE REF] For further information, see the page invalid item schemes-divergence-nvdtvd
+Many options for interpolating the convective flux exist. Often it is the most important numerical choice in the simulation. 
+Many of the convection schemes available in OpenFOAM are based on the Total Variation Diminishing (TVD) or Normalised Variable Diagram (NVD) techniques: 
 
-    Limited linear divergence scheme
-    Linear divergence scheme
-    Linear-upwind divergence scheme
-    MUSCL divergence scheme
-    Mid-point divergence scheme
-    Minmod divergence scheme
-    QUICK divergence scheme
-    UMIST divergence scheme
-    Upwind divergence scheme
-    Van Leer divergence scheme
+        - NVD/TVD convection schemes::
+         
+            - Limited linear divergence scheme
+            - Linear divergence scheme
+            - Linear-upwind divergence scheme
+            - MUSCL divergence scheme
+            - Mid-point divergence scheme
+            - Minmod divergence scheme
+            - QUICK divergence scheme
+            - UMIST divergence scheme
+            - Upwind divergence scheme
+            - Van Leer divergence scheme
+         
+        - Non-NVD/TVD convection schemes::
 
-Non-NVD/TVD convection schemes
-
-    Courant number blended divergence scheme
-    DES hybrid divergence scheme
-    Filtered Linear (2) divergence scheme
-    LUST divergence scheme
-
+            - Courant number blended divergence scheme
+            - DES hybrid divergence scheme
+            - Filtered Linear (2) divergence scheme
+            - LUST divergence scheme
 
 
 Laplacian
@@ -333,17 +319,18 @@ Surface-normal gradient schemes are specified in the fvSchemesfile under the snG
                 snGrad(Q)       <snGrad scheme>;
             }
 
-Options
+Options:
 
-    Corrected surface-normal gradient scheme
-    Face-corrected surface-normal gradient scheme
-    Limited surface-normal gradient scheme
-    Orthogonal surface-normal gradient scheme
-    Uncorrected surface-normal gradient scheme
+- Corrected surface-normal gradient scheme
+- Face-corrected surface-normal gradient scheme
+- Limited surface-normal gradient scheme
+- Orthogonal surface-normal gradient scheme
+- Uncorrected surface-normal gradient scheme
 
 
 
 Pressure-velocity coupling
+--------------------------
 
     Introduction: Pressure-velocity algorithms
     Steady state: SIMPLE
